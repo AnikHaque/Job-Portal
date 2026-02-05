@@ -1,0 +1,96 @@
+{% extends "base.html" %}
+{% block content %}
+<style>
+.warning-section{
+  background:linear-gradient(180deg,#fff7ed,#ffffff);
+  min-height:70vh;
+  display:flex;
+  align-items:center;
+}
+
+.warning-card{
+  background:#fff;
+  padding:60px 40px;
+  border-radius:26px;
+  box-shadow:0 30px 80px rgba(0,0,0,.1);
+  max-width:600px;
+  margin:auto;
+}
+
+/* Icon */
+.warning-icon{
+  width:90px;
+  height:90px;
+  margin:0 auto 25px;
+  border-radius:50%;
+  background:linear-gradient(135deg,#f59e0b,#d97706);
+  color:#fff;
+  font-size:44px;
+  font-weight:900;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  box-shadow:0 15px 40px rgba(245,158,11,.45);
+}
+
+/* Text */
+.warning-title{
+  font-size:30px;
+  font-weight:800;
+  color:#0f172a;
+}
+
+.warning-text{
+  font-size:18px;
+  color:#475569;
+  margin:15px 0 35px;
+}
+
+/* Buttons */
+.warning-actions{
+  display:flex;
+  justify-content:center;
+  gap:18px;
+  flex-wrap:wrap;
+}
+
+.warning-actions .btn{
+  padding:14px 34px;
+  border-radius:14px;
+  font-weight:700;
+}
+</style>
+
+<section class="warning-section py-5">
+  <div class="container">
+    <div class="warning-card text-center">
+
+      <!-- Icon -->
+      <div class="warning-icon">
+        !
+      </div>
+
+      <!-- Text -->
+      <h2 class="warning-title">
+        Application Already Submitted
+      </h2>
+
+      <p class="warning-text">
+        You have already applied for  
+        <strong>{{ job.title }}</strong>
+      </p>
+
+      <!-- Actions -->
+      <div class="warning-actions">
+        <a href="/" class="btn btn-secondary btn-lg">
+          Back to Jobs
+        </a>
+        <a href="/dashboard/" class="btn btn-outline-warning btn-lg">
+          View My Applications
+        </a>
+      </div>
+
+    </div>
+  </div>
+</section>
+{% endblock %}

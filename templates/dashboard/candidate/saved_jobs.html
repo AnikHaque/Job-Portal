@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<style>
+.saved-jobs-section{
+  background:#f8fafc;
+}
+
+/* Table */
+.saved-jobs-table{
+  background:#ffffff;
+  border-radius:16px;
+  overflow:hidden;
+  box-shadow:0 15px 40px rgba(0,0,0,.06);
+}
+
+.saved-jobs-table thead{
+  background:#f1f5f9;
+}
+
+.saved-jobs-table th{
+  font-size:14px;
+  font-weight:700;
+  color:#334155;
+  padding:16px;
+  border-bottom:none;
+}
+
+.saved-jobs-table td{
+  padding:16px;
+  border-top:1px solid #e5e7eb;
+}
+
+/* Job title */
+.job-title{
+  color:#0f172a;
+}
+
+/* Company */
+.company-name{
+  font-size:14px;
+  color:#64748b;
+}
+
+/* Hover */
+.saved-jobs-table tbody tr:hover{
+  background:#f8fafc;
+}
+
+/* Empty */
+.empty-state{
+  background:#ffffff;
+  border-radius:20px;
+  box-shadow:0 15px 40px rgba(0,0,0,.06);
+}
+
+.empty-icon{
+  font-size:40px;
+  margin-bottom:10px;
+}
+</style>
+
+<body>
+  <section class="saved-jobs-section py-5">
+  <div class="container">
+
+    <h3 class="fw-bold mb-4">Saved Jobs</h3>
+
+    {% if saved_jobs %}
+    <div class="table-responsive">
+      <table class="table saved-jobs-table align-middle">
+        <thead>
+          <tr>
+            <th>Job Title</th>
+            <th>Company</th>
+            <th class="text-end">Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for item in saved_jobs %}
+          <tr>
+            <td>
+              <div class="job-title">{{ item.job.title }}</div>
+            </td>
+            <td>
+              <span class="company-name">{{ item.job.company.name }}</span>
+            </td>
+            <td class="text-end">
+              <a href="{% url 'job_detail' item.job.id %}"
+                 class="btn btn-outline-primary btn-sm">
+                View Job
+              </a>
+            </td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+    {% else %}
+      <div class="empty-state text-center py-5">
+        <div class="empty-icon">📌</div>
+        <h5>No saved jobs</h5>
+        <p class="text-muted">
+          You haven’t saved any jobs yet.
+        </p>
+      </div>
+    {% endif %}
+
+  </div>
+</section>
+
+</body>
+</html>

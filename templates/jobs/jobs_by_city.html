@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+{% block title %}Jobs in {{ city|title }}{% endblock %}
+
+{% block content %}
+
+<h2 class="mb-4">
+  Jobs in {{ city|title }}
+</h2>
+
+<div class="row">
+  {% for job in jobs %}
+  <div class="col-lg-4 col-md-6 mb-4">
+    <div class="card h-100">
+      <div class="card-body">
+        <h5>{{ job.title }}</h5>
+        <p class="text-muted small">{{ job.company.name }}</p>
+        <p class="text-muted small">📍 {{ job.location }}</p>
+
+        <a href="{% url 'job_detail' job.id %}"
+           class="btn btn-outline-primary btn-sm">
+          View Job
+        </a>
+      </div>
+    </div>
+  </div>
+  {% empty %}
+  <div class="col-12">
+    <div class="alert alert-warning">
+      No jobs found in this city.
+    </div>
+  </div>
+  {% endfor %}
+</div>
+
+{% endblock %}

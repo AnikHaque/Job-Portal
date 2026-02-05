@@ -1,0 +1,259 @@
+{% extends "base.html" %}
+{% block title %}Create Account{% endblock %}
+{% block content %}
+
+<style>
+  .auth-wrapper {
+    min-height: 90vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .auth-box {
+    background: #fff;
+    border-radius: 22px;
+    overflow: hidden;
+    box-shadow: 0 40px 80px rgba(15,23,42,.18);
+    max-width: 1000px;
+    width: 100%;
+  }
+
+  /* LEFT SIDE */
+  .auth-left {
+    background: linear-gradient(
+        135deg,
+        rgba(15,23,42,.85),
+        rgba(79,70,229,.85)
+      ),
+      url("https://images.unsplash.com/photo-1521737604893-d14cc237f11d");
+    background-size: cover;
+    background-position: center;
+    color: #fff;
+    padding: 60px 50px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+
+  .auth-left h2 {
+    font-weight: 800;
+    line-height: 1.2;
+  }
+
+  .auth-left p {
+    color: #e5e7eb;
+    font-size: 1rem;
+    margin-top: 15px;
+  }
+
+  /* RIGHT SIDE */
+  .auth-right {
+    padding: 55px 45px;
+  }
+
+  .auth-title {
+    font-weight: 800;
+    margin-bottom: 8px;
+  }
+
+  .auth-subtitle {
+    color: #64748b;
+    font-size: .95rem;
+    margin-bottom: 30px;
+  }
+
+  .form-label {
+    font-size: .85rem;
+    font-weight: 600;
+    margin-bottom: 6px;
+  }
+
+  .form-control {
+    height: 48px;
+    border-radius: 12px;
+    border: 1px solid #e5e7eb;
+  }
+
+  .form-control:focus {
+    border-color: #6366f1;
+    box-shadow: 0 0 0 .2rem rgba(99,102,241,.2);
+  }
+
+  .role-select {
+    height: 48px;
+    border-radius: 12px;
+  }
+
+  .btn-auth {
+    height: 50px;
+    border-radius: 14px;
+    font-weight: 600;
+    font-size: 1rem;
+  }
+
+  .auth-footer {
+    font-size: .9rem;
+    color: #64748b;
+    margin-top: 20px;
+    text-align: center;
+  }
+
+  /* RESPONSIVE */
+  @media (max-width: 991px) {
+    .auth-left {
+      display: none;
+    }
+
+    .auth-right {
+      padding: 45px 30px;
+    }
+  }
+
+  /* Page load animation */
+  .fade-slide {
+    animation: fadeSlideUp .9s ease forwards;
+    opacity: 0;
+  }
+
+  @keyframes fadeSlideUp {
+    from {
+      opacity: 0;
+      transform: translateY(25px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  .progress-bar.weak {
+    background-color: #dc3545;
+  }
+
+  .progress-bar.medium {
+    background-color: #ffc107;
+  }
+
+  .progress-bar.strong {
+    background-color: #198754;
+  }
+
+</style>
+
+<div class="auth-wrapper">
+  <div class="auth-box row g-0">
+
+    <!-- LEFT IMAGE / BRAND -->
+    <div class="col-lg-6 auth-left">
+      <h2>
+        Build your career<br>
+        with confidence
+      </h2>
+      <p>
+        Discover opportunities from verified companies,
+        apply faster and get hired smarter.
+      </p>
+    </div>
+
+    <!-- RIGHT FORM -->
+    <div class="col-lg-6 auth-right fade-slide">
+
+      <h3 class="auth-title">
+        Create your account
+      </h3>
+      <p class="auth-subtitle">
+        It takes less than a minute to get started
+      </p>
+
+      <form method="post">
+        {% csrf_token %}
+
+        <div class="mb-3">
+          <label class="form-label">Username</label>
+          {{ form.username }}
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label">Email address</label>
+          {{ form.email }}
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label">Password</label>
+          {{ form.password1 }}
+          <div class="password-meter mt-2">
+  <div class="progress" style="height:6px;">
+    <div id="strengthBar" class="progress-bar" style="width:0%"></div>
+  </div>
+  <small id="strengthText" class="text-muted"></small>
+</div>
+
+        </div>
+        
+
+        <div class="mb-3">
+          <label class="form-label">Confirm password</label>
+          {{ form.password2 }}
+        </div>
+
+        <div class="mb-4">
+          <label class="form-label">I am signing up as</label>
+          <select name="role" class="form-control role-select" required>
+            <option value="">Select role</option>
+            <option value="candidate">Candidate</option>
+            <option value="employer">Employer</option>
+          </select>
+        </div>
+
+        <button type="submit" class="btn btn-primary btn-auth w-100">
+          Create Account
+        </button>
+      </form>
+
+      <div class="auth-footer">
+        Already have an account?
+        <a href="{% url 'login' %}" class="text-decoration-none">
+          Login here
+        </a>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<script>
+  const passwordInput = document.getElementById("id_password1");
+  const strengthBar = document.getElementById("strengthBar");
+  const strengthText = document.getElementById("strengthText");
+
+  if (passwordInput) {
+    passwordInput.addEventListener("input", function () {
+      const val = passwordInput.value;
+      let strength = 0;
+
+      if (val.length >= 8) strength++;
+      if (/[A-Z]/.test(val)) strength++;
+      if (/[0-9]/.test(val)) strength++;
+      if (/[^A-Za-z0-9]/.test(val)) strength++;
+
+      strengthBar.className = "progress-bar";
+
+      if (strength <= 1) {
+        strengthBar.style.width = "25%";
+        strengthBar.classList.add("weak");
+        strengthText.innerText = "Weak password";
+      } else if (strength === 2 || strength === 3) {
+        strengthBar.style.width = "60%";
+        strengthBar.classList.add("medium");
+        strengthText.innerText = "Medium strength";
+      } else {
+        strengthBar.style.width = "100%";
+        strengthBar.classList.add("strong");
+        strengthText.innerText = "Strong password";
+      }
+    });
+  }
+</script>
+{% endblock %}
+

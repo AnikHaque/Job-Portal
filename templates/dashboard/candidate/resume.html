@@ -1,0 +1,10 @@
+<h3 class="mb-4">My Resume</h3>
+
+{% if resume %}
+  <p>Your resume is ready.</p>
+  <a href="{% url 'resume_preview' %}" class="btn btn-primary">Preview Resume</a>
+  <a href="{% url 'resume_download' %}" class="btn btn-success">Download PDF</a>
+{% else %}
+  <p>You haven’t created a resume yet.</p>
+  <a href="{% url 'resume_create' %}" class="btn btn-warning">Create Resume</a>
+{% endif %}

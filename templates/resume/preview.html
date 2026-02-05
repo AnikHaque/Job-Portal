@@ -1,0 +1,173 @@
+{% extends "base.html" %}
+{% block title %}Resume Preview{% endblock %}
+
+{% block content %}
+
+<style>
+  .resume-wrapper {
+    max-width: 900px;
+    margin: auto;
+  }
+
+  .resume-card {
+    background: #ffffff;
+    border-radius: 14px;
+    overflow: hidden;
+  }
+
+  .resume-header {
+    background: linear-gradient(135deg, #020617, #1e293b);
+    color: white;
+    padding: 30px;
+  }
+
+  .resume-header h2 {
+    font-weight: 700;
+    margin-bottom: 6px;
+  }
+
+  .resume-header p {
+    margin: 0;
+    font-size: 0.9rem;
+    color: #cbd5e1;
+  }
+
+  .resume-body {
+    padding: 30px;
+  }
+
+  .section-title {
+    font-weight: 700;
+    font-size: 1.05rem;
+    margin-bottom: 10px;
+    border-bottom: 2px solid #e5e7eb;
+    padding-bottom: 4px;
+  }
+
+  .skill-badge {
+    background: #e0e7ff;
+    color: #1e3a8a;
+    padding: 6px 10px;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    margin: 4px 6px 4px 0;
+    display: inline-block;
+  }
+
+  .resume-photo {
+    width: 110px;
+    height: 110px;
+    object-fit: cover;
+    border-radius: 12px;
+    border: 3px solid #ffffff;
+  }
+
+  .muted {
+    color: #6b7280;
+    font-size: 0.9rem;
+  }
+</style>
+
+<div class="resume-wrapper my-5">
+  <div class="resume-card shadow-lg">
+
+    <!-- ================= HEADER ================= -->
+    <div class="resume-header">
+      <div class="row align-items-center">
+        <div class="col-md-9">
+          <h2>{{ resume.full_name }}</h2>
+          <p>{{ resume.email }} · {{ resume.phone }}</p>
+          <p>{{ resume.address }}</p>
+          {% if resume.website %}
+            <p>{{ resume.website }}</p>
+          {% endif %}
+        </div>
+        <div class="col-md-3 text-md-end mt-3 mt-md-0">
+          {% if resume.photo %}
+            <img src="{{ resume.photo.url }}" class="resume-photo">
+          {% endif %}
+        </div>
+      </div>
+    </div>
+
+    <!-- ================= BODY ================= -->
+    <div class="resume-body">
+
+      {% if resume.summary %}
+      <div class="mb-4">
+        <div class="section-title">Professional Summary</div>
+        <p>{{ resume.summary }}</p>
+      </div>
+      {% endif %}
+
+      {% if skills_list %}
+      <div class="mb-4">
+        <div class="section-title">Skills</div>
+        {% for skill in skills_list %}
+          <span class="skill-badge">{{ skill }}</span>
+        {% endfor %}
+      </div>
+      {% endif %}
+
+      {% if resume.experience %}
+      <div class="mb-4">
+        <div class="section-title">Professional Experience</div>
+        <p>{{ resume.experience }}</p>
+      </div>
+      {% endif %}
+
+      {% if resume.education %}
+      <div class="mb-4">
+        <div class="section-title">Education</div>
+        <p>{{ resume.education }}</p>
+      </div>
+      {% endif %}
+
+      {% if resume.projects %}
+      <div class="mb-4">
+        <div class="section-title">Projects</div>
+        <p>{{ resume.projects }}</p>
+      </div>
+      {% endif %}
+
+      {% if resume.certifications %}
+      <div class="mb-4">
+        <div class="section-title">Certifications & Awards</div>
+        <p>{{ resume.certifications }}</p>
+      </div>
+      {% endif %}
+
+      {% if resume.languages %}
+      <div class="mb-4">
+        <div class="section-title">Languages</div>
+        <p>{{ resume.languages }}</p>
+      </div>
+      {% endif %}
+
+      {% if resume.extracurricular %}
+      <div class="mb-4">
+        <div class="section-title">Extra Curricular Activities</div>
+        <p>{{ resume.extracurricular }}</p>
+      </div>
+      {% endif %}
+
+      {% if resume.references %}
+      <div class="mb-4">
+        <div class="section-title">References</div>
+        <p>{{ resume.references }}</p>
+      </div>
+      {% endif %}
+
+      <!-- ================= DOWNLOAD ================= -->
+      <div class="text-center mt-5">
+        <a href="{% url 'resume_download' %}"
+           class="btn btn-success btn-lg px-4">
+          ⬇ Download Resume (PDF)
+        </a>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+{% endblock %}

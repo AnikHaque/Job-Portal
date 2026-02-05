@@ -1,0 +1,168 @@
+{% extends "base.html" %}
+{% block title %}Create Resume{% endblock %}
+
+{% block content %}
+<style>
+.resume-wizard{
+  background:#f8fafc;
+}
+
+.wizard-step{
+  display:none;
+}
+.wizard-step.active{
+  display:block;
+}
+
+.progress-bar{
+  background:linear-gradient(90deg,#22c55e,#16a34a);
+}
+
+.step-labels{
+  display:flex;
+  justify-content:space-between;
+  font-size:13px;
+  color:#94a3b8;
+}
+.step-labels span.active{
+  color:#16a34a;
+  font-weight:600;
+}
+
+.form-control{
+  border-radius:10px;
+  padding:12px;
+}
+</style>
+
+<section class="resume-wizard py-5">
+  <div class="container">
+    <div class="row justify-content-center">
+      <div class="col-lg-9">
+
+        <!-- Progress -->
+        <div class="mb-4">
+          <div class="progress" style="height:8px;">
+            <div class="progress-bar" id="progressBar"></div>
+          </div>
+          <div class="step-labels mt-2">
+            <span class="active">Basic</span>
+            <span>Summary</span>
+            <span>Skills</span>
+            <span>Experience</span>
+            <span>Education</span>
+            <span>Extras</span>
+          </div>
+        </div>
+
+        <div class="card shadow-lg">
+          <div class="card-body p-5">
+
+            <h3 class="fw-bold text-center mb-4">Build Your Resume</h3>
+
+            <form method="post" enctype="multipart/form-data">
+              {% csrf_token %}
+
+              <!-- STEP 1 -->
+              <div class="wizard-step active">
+                <h5>Basic Information</h5>
+                <input class="form-control mb-2" name="full_name" value="{{ resume.full_name }}" placeholder="Full Name">
+                <input class="form-control mb-2" name="email" value="{{ resume.email }}" placeholder="Email">
+                <input class="form-control mb-2" name="phone" value="{{ resume.phone }}" placeholder="Phone">
+                <input class="form-control mb-2" name="address" value="{{ resume.address }}" placeholder="Address">
+                <input class="form-control mb-3" name="website" value="{{ resume.website }}" placeholder="Website / LinkedIn">
+
+                <label>Profile Photo</label>
+                <input type="file" name="photo" class="form-control">
+              </div>
+
+              <!-- STEP 2 -->
+              <div class="wizard-step">
+                <h5>Professional Summary</h5>
+                <textarea class="form-control" rows="5" name="summary">{{ resume.summary }}</textarea>
+              </div>
+
+              <!-- STEP 3 -->
+              <div class="wizard-step">
+                <h5>Skills</h5>
+                <input class="form-control" name="skills" value="{{ resume.skills }}" placeholder="Python, Django">
+              </div>
+
+              <!-- STEP 4 -->
+              <div class="wizard-step">
+                <h5>Experience</h5>
+                <textarea class="form-control" rows="5" name="experience">{{ resume.experience }}</textarea>
+              </div>
+
+              <!-- STEP 5 -->
+              <div class="wizard-step">
+                <h5>Education</h5>
+                <textarea class="form-control" rows="4" name="education">{{ resume.education }}</textarea>
+              </div>
+
+              <!-- STEP 6 -->
+              <div class="wizard-step">
+                <h5>Projects</h5>
+                <textarea class="form-control mb-3" rows="3" name="projects">{{ resume.projects }}</textarea>
+
+                <h5>Certifications</h5>
+                <textarea class="form-control mb-3" rows="3" name="certifications">{{ resume.certifications }}</textarea>
+
+                <h5>Languages</h5>
+                <input class="form-control mb-3" name="languages" value="{{ resume.languages }}">
+
+                <h5>Extra Curricular</h5>
+                <textarea class="form-control mb-3" rows="3" name="extracurricular">{{ resume.extracurricular }}</textarea>
+
+                <h5>References</h5>
+                <textarea class="form-control" rows="3" name="references">{{ resume.references }}</textarea>
+              </div>
+
+              <!-- Actions -->
+              <div class="wizard-actions mt-4 d-flex justify-content-between">
+                <button type="button" class="btn btn-outline-secondary" id="prevBtn">
+                  Back
+                </button>
+                <button type="button" class="btn btn-primary" id="nextBtn">
+                  Next
+                </button>
+                <button type="submit" class="btn btn-success d-none" id="submitBtn">
+                  Save & Preview Resume
+                </button>
+              </div>
+
+            </form>
+
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+let currentStep = 0;
+const steps = document.querySelectorAll(".wizard-step");
+const labels = document.querySelectorAll(".step-labels span");
+const progressBar = document.getElementById("progressBar");
+const prevBtn = document.getElementById("prevBtn");
+const nextBtn = document.getElementById("nextBtn");
+const submitBtn = document.getElementById("submitBtn");
+
+function updateWizard(){
+  steps.forEach((s,i)=>s.classList.toggle("active", i===currentStep));
+  labels.forEach((l,i)=>l.classList.toggle("active", i<=currentStep));
+  progressBar.style.width = ((currentStep+1)/steps.length*100)+"%";
+
+  prevBtn.style.display = currentStep===0 ? "none" : "inline-block";
+  nextBtn.classList.toggle("d-none", currentStep===steps.length-1);
+  submitBtn.classList.toggle("d-none", currentStep!==steps.length-1);
+}
+
+nextBtn.onclick = ()=>{ if(currentStep < steps.length-1){ currentStep++; updateWizard(); } };
+prevBtn.onclick = ()=>{ if(currentStep > 0){ currentStep--; updateWizard(); } };
+
+updateWizard();
+</script>
+{% endblock %}
