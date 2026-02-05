@@ -28,7 +28,7 @@ DEBUG = False
 ALLOWED_HOSTS = [
     'localhost',
     '127.0.0.1',
-    'jobportal.onrender.com',   # 🔁 এখানে তোমার Render app name
+    'https://job-portal-cedv.onrender.com',   # 🔁 এখানে তোমার Render app name
 ]
 
 
@@ -139,5 +139,5 @@ STATIC_URL = '/static/'
 STATIC_ROOT = BASE_DIR / 'staticfiles'
 
 CSRF_TRUSTED_ORIGINS = [
-    'https://jobportal.onrender.com',  # Render URL
+    'https://job-portal-cedv.onrender.com',  # Render URL
 ]
