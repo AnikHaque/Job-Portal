@@ -9,28 +9,37 @@ https://docs.djangoproject.com/en/6.0/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/6.0/ref/settings/
 """
-
+import os
 from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
+ENVIRONMENT = os.environ.get("ENVIRONMENT", "development")
+
+SECRET_KEY = os.environ.get(
+    "DJANGO_SECRET_KEY",
+    "django-insecure-2#t@djaufi!=f5q$g+crqq-gtv9z+_m96lhnd!!*27=!#eduxs"
+)
+
+# if ENVIRONMENT == "production":
+#     SECRET_KEY = os.environ.get("DJANGO_SECRET_KEY")
+# else:
+#     SECRET_KEY = 'django-insecure-2#t@djaufi!=f5q$g+crqq-gtv9z+_m96lhnd!!*27=!#eduxs'
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/6.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-2#t@djaufi!=f5q$g+crqq-gtv9z+_m96lhnd!!*27=!#eduxs'
+
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = ENVIRONMENT != "production"
 
-ALLOWED_HOSTS = [
-    'localhost',
-    '127.0.0.1',
-    'job-portal-cedv.onrender.com',   # 🔁 এখানে তোমার Render app name
-]
-
+if ENVIRONMENT == "production":
+    ALLOWED_HOSTS = ['job-portal-cedv.onrender.com']
+else:
+    ALLOWED_HOSTS = ['localhost', '127.0.0.1']
 
 
 # Application definition
@@ -47,30 +56,47 @@ INSTALLED_APPS = [
     'companies',
     'news',
     'success_stories',
+    'cloudinary',
+    'cloudinary_storage',
 ]
 LOGIN_REDIRECT_URL = '/'
 LOGOUT_REDIRECT_URL = '/login/'
+
 MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR / 'media'
 
-import os
 
-SECRET_KEY = os.environ.get("DJANGO_SECRET_KEY")
+
 STRIPE_PUBLIC_KEY = os.environ.get("STRIPE_PUBLIC_KEY")
 STRIPE_SECRET_KEY = os.environ.get("STRIPE_SECRET_KEY")
 EMAIL_HOST_PASSWORD = os.environ.get("EMAIL_HOST_PASSWORD")
+import cloudinary
+import os
+
+cloudinary.config(
+    cloud_name=os.environ.get("CLOUDINARY_CLOUD_NAME"),
+    api_key=os.environ.get("CLOUDINARY_API_KEY"),
+    api_secret=os.environ.get("CLOUDINARY_API_SECRET"),
+)
+DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
+
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
-    'whitenoise.middleware.WhiteNoiseMiddleware',  # 👈 MUST
+]
+
+if ENVIRONMENT == "production":
+    MIDDLEWARE += ['whitenoise.middleware.WhiteNoiseMiddleware']
+
+MIDDLEWARE += [
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    
 ]
+
 
 ROOT_URLCONF = 'jobportal.urls'
 
@@ -142,6 +168,10 @@ STATIC_ROOT = BASE_DIR / 'staticfiles'
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 
-CSRF_TRUSTED_ORIGINS = [
-    'https://job-portal-cedv.onrender.com',  # Render URL
-]
+CSRF_TRUSTED_ORIGINS = []
+
+if ENVIRONMENT == "production":
+    CSRF_TRUSTED_ORIGINS = [
+        'https://job-portal-cedv.onrender.com',
+    ]
+
