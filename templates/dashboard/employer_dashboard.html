@@ -3,27 +3,74 @@
 {% block title %}Employer Dashboard{% endblock %}
 {% block sidebar_title %}Employer{% endblock %}
 
+{% block extra_css %}
+<style>
+/* 🔒 SCOPED only to employer sidebar */
+.employer-sidebar a {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 14px;
+  margin-bottom: 4px;
+  border-radius: 8px;
+  color: #1f2937;
+  text-decoration: none;
+  font-weight: 500;
+  font-size: 14px;
+}
+
+.employer-sidebar a:hover {
+  background-color: #f1f5f9;
+}
+
+.employer-sidebar .section-title {
+  margin: 14px 0 6px;
+  padding: 0 14px;
+  font-size: 12px;
+  font-weight: 600;
+  color: #64748b;
+  text-transform: uppercase;
+}
+
+.employer-sidebar hr {
+  margin: 12px 0;
+}
+</style>
+{% endblock %}
+
 {% block sidebar_links %}
-<a href="{% url 'employer_overview' %}">🏠 Dashboard</a>
-<a href="{% url 'create_company' %}">➕ Create Company</a>
-<a href="{% url 'company_detail' %}">🏢 Company Profile</a>
-<a href="{% url 'employer_jobs' %}">📄 My Jobs</a>
-<a href="{% url 'employer_post_job' %}">➕ Post Job</a>
-<a href="{% url 'employer_applicants' %}">👥 Applicants</a>
-<a href="{% url 'employer_payments' %}">💳 Payments</a>
-<a href="{% url 'employer_analytics' %}">📊 Analytics</a>
 
-<hr>
+<div class="employer-sidebar">
 
-<a href="{% url 'create_news' %}">📰 Post News</a>
+  <a href="{% url 'employer_overview' %}">🏠 Dashboard</a>
 
-<!-- ✅ SUCCESS STORIES -->
-<a href="{% url 'my_success_stories' %}">⭐ My Reviews</a>
-<a href="{% url 'add_success_story' %}">➕ Add Review</a>
+  <a href="{% url 'create_company' %}">🏢 Company Profile</a>
 
-<hr>
+  <div class="section-title">Jobs</div>
 
-<a href="{% url 'logout' %}">🚪 Logout</a>
+  <a href="{% url 'employer_post_job' %}">➕ Post Job</a>
+  <a href="{% url 'employer_jobs' %}">📄 My Jobs</a>
+  <a href="{% url 'employer_applicants' %}">👥 Applicants</a>
+
+  <div class="section-title">Payments</div>
+
+  <a href="{% url 'employer_payments' %}">💳 Payments</a>
+  <a href="{% url 'employer_analytics' %}">📊 Analytics</a>
+
+  <div class="section-title">Content</div>
+
+  <a href="{% url 'my_news' %}">📰 My News</a>
+  <a href="{% url 'create_news' %}">➕ Post News</a>
+
+  <a href="{% url 'my_success_stories' %}">⭐ My Reviews</a>
+  <a href="{% url 'add_success_story' %}">➕ Add Review</a>
+
+  <hr>
+
+  <a href="{% url 'logout' %}" style="color:#dc2626;">🚪 Logout</a>
+
+</div>
+
 {% endblock %}
 
 {% block dashboard_content %}

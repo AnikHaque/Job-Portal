@@ -1,0 +1,12 @@
+<h4 class="text-danger mb-3">🗑 Delete News</h4>
+
+<p>
+  Are you sure you want to delete
+  <strong>{{ news.title }}</strong>?
+</p>
+
+<form method="post">
+  {% csrf_token %}
+  <button class="btn btn-danger">Yes, Delete</button>
+  <a href="{% url 'my_news' %}" class="btn btn-secondary">Cancel</a>
+</form>
