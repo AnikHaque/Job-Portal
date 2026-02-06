@@ -1,0 +1,35 @@
+<h4 class="mb-4">⭐ My Success Stories</h4>
+
+<a href="{% url 'add_success_story' %}" class="btn btn-success btn-sm mb-3">
+  ➕ Add New Review
+</a>
+
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <th>Title</th>
+      <th>Company</th>
+      <th>Created</th>
+      <th>Actions</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for story in stories %}
+    <tr>
+      <td>{{ story.title }}</td>
+      <td>{{ story.company_name }}</td>
+      <td>{{ story.created_at|date:"M d, Y" }}</td>
+      <td>
+        <a href="{% url 'edit_success_story' story.id %}"
+           class="btn btn-sm btn-warning">Edit</a>
+        <a href="{% url 'delete_success_story' story.id %}"
+           class="btn btn-sm btn-danger">Delete</a>
+      </td>
+    </tr>
+    {% empty %}
+    <tr>
+      <td colspan="4">No reviews yet.</td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>

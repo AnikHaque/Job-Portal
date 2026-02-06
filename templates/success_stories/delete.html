@@ -1,0 +1,13 @@
+<h4 class="text-danger mb-3">🗑 Delete Success Story</h4>
+
+<p>
+  Are you sure you want to delete
+  <strong>{{ story.title }}</strong>?
+</p>
+
+<form method="post">
+  {% csrf_token %}
+  <button class="btn btn-danger">Yes, Delete</button>
+  <a href="{% url 'my_success_stories' %}"
+     class="btn btn-secondary">Cancel</a>
+</form>
