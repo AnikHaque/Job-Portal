@@ -1,0 +1,26 @@
+{% extends "dashboard/base_dashboard.html" %}
+
+{% block title %}Employer Dashboard{% endblock %}
+{% block sidebar_title %}Employer{% endblock %}
+
+{% block sidebar_links %}
+<a href="{% url 'employer_overview' %}">🏠 Dashboard</a>
+<a href="{% url 'create_company' %}"> ➕ Create Company</a>
+<a href="{% url 'company_detail' %}">🏢 Company Profile</a>
+<a href="{% url 'employer_jobs' %}">📄 My Jobs</a>
+<a href="{% url 'employer_post_job' %}"> ➕ Post Job</a>
+<a href="{% url 'employer_applicants' %}">👥 Applicants</a>
+<a href="{% url 'employer_payments' %}">💳 Payments</a>
+<a href="{% url 'employer_analytics' %}">📊 Analytics</a>
+<a href="{% url 'create_news' %}" class="list-group-item">
+  📰 Post News
+</a>
+
+<a href="{% url 'add_success_story' %}">➕ Post Review</a>
+
+<a href="{% url 'logout' %}">🚪 Logout</a>
+{% endblock %}
+
+{% block dashboard_content %}
+  {% include dashboard_page %}
+{% endblock %}

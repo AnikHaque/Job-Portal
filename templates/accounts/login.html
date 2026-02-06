@@ -1,0 +1,210 @@
+{% extends "base.html" %}
+{% block title %}Login{% endblock %}
+{% block content %}
+
+<style>
+  /* ===== WRAPPER ===== */
+  .auth-wrapper {
+    min-height: 90vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .auth-box {
+    background: #ffffff;
+    border-radius: 22px;
+    overflow: hidden;
+    box-shadow: 0 40px 80px rgba(15,23,42,.18);
+    max-width: 1000px;
+    width: 100%;
+  }
+
+  /* ===== LEFT IMAGE ===== */
+  .auth-left {
+    background: linear-gradient(
+        135deg,
+        rgba(2,6,23,.85),
+        rgba(79,70,229,.85)
+      ),
+      url("https://images.unsplash.com/photo-1522202176988-66273c2fd55f");
+    background-size: cover;
+    background-position: center;
+    color: #ffffff;
+    padding: 60px 50px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+
+  .auth-left h2 {
+    font-weight: 800;
+    line-height: 1.2;
+  }
+
+  .auth-left p {
+    color: #e5e7eb;
+    font-size: 1rem;
+    margin-top: 15px;
+  }
+
+  /* ===== RIGHT FORM ===== */
+  .auth-right {
+    padding: 55px 45px;
+    animation: fadeSlideUp .9s ease forwards;
+    opacity: 0;
+  }
+
+  @keyframes fadeSlideUp {
+    from {
+      opacity: 0;
+      transform: translateY(25px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  .auth-title {
+    font-weight: 800;
+    margin-bottom: 8px;
+  }
+
+  .auth-subtitle {
+    color: #64748b;
+    font-size: .95rem;
+    margin-bottom: 30px;
+  }
+
+  .form-label {
+    font-size: .85rem;
+    font-weight: 600;
+    margin-bottom: 6px;
+  }
+
+  .form-control {
+    height: 48px;
+    border-radius: 12px;
+    border: 1px solid #e5e7eb;
+  }
+
+  .form-control:focus {
+    border-color: #6366f1;
+    box-shadow: 0 0 0 .2rem rgba(99,102,241,.2);
+  }
+
+  .password-wrapper {
+    position: relative;
+  }
+
+  .toggle-password {
+    position: absolute;
+    right: 14px;
+    top: 50%;
+    transform: translateY(-50%);
+    cursor: pointer;
+    font-size: .85rem;
+    color: #6366f1;
+    font-weight: 600;
+  }
+
+  .btn-auth {
+    height: 50px;
+    border-radius: 14px;
+    font-weight: 600;
+    font-size: 1rem;
+  }
+
+  .auth-footer {
+    font-size: .9rem;
+    color: #64748b;
+    margin-top: 20px;
+    text-align: center;
+  }
+
+  /* ===== RESPONSIVE ===== */
+  @media (max-width: 991px) {
+    .auth-left {
+      display: none;
+    }
+
+    .auth-right {
+      padding: 45px 30px;
+    }
+  }
+</style>
+
+<div class="auth-wrapper">
+  <div class="auth-box row g-0">
+
+    <!-- LEFT BRAND IMAGE -->
+    <div class="col-lg-6 auth-left">
+      <h2>
+        Welcome back 👋<br>
+        Let’s get you hired
+      </h2>
+      <p>
+        Login to manage applications, explore jobs,
+        and connect with top companies.
+      </p>
+    </div>
+
+    <!-- RIGHT LOGIN FORM -->
+    <div class="col-lg-6 auth-right">
+
+      <h3 class="auth-title">
+        Sign in to your account
+      </h3>
+      <p class="auth-subtitle">
+        Enter your credentials to continue
+      </p>
+
+      <form method="post">
+        {% csrf_token %}
+
+        <div class="mb-3">
+          <label class="form-label">Username</label>
+          {{ form.username }}
+        </div>
+
+        <div class="mb-4 password-wrapper">
+          <label class="form-label">Password</label>
+          {{ form.password }}
+          <span class="toggle-password" onclick="togglePassword()">
+            Show
+          </span>
+        </div>
+
+        <button type="submit" class="btn btn-primary btn-auth w-100">
+          Login
+        </button>
+      </form>
+
+      <div class="auth-footer">
+        Don’t have an account?
+        <a href="{% url 'signup' %}" class="text-decoration-none">
+          Create one
+        </a>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<script>
+  function togglePassword() {
+    const input = document.getElementById("id_password");
+    const toggle = document.querySelector(".toggle-password");
+
+    if (input.type === "password") {
+      input.type = "text";
+      toggle.innerText = "Hide";
+    } else {
+      input.type = "password";
+      toggle.innerText = "Show";
+    }
+  }
+</script>
+
+{% endblock %}

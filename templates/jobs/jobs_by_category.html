@@ -1,0 +1,138 @@
+{% extends "base.html" %}
+{% block content %}
+<style>
+.category-jobs-section{
+  background:#f8fafc;
+}
+
+/* Card */
+.job-modern-card{
+  background:#ffffff;
+  border-radius:18px;
+  padding:22px;
+  box-shadow:0 15px 40px rgba(0,0,0,.06);
+  transition:.3s ease;
+  display:flex;
+  flex-direction:column;
+  justify-content:space-between;
+}
+
+.job-modern-card:hover{
+  transform:translateY(-6px);
+  box-shadow:0 25px 60px rgba(0,0,0,.1);
+}
+
+/* Top */
+.job-card-top{
+  display:flex;
+  gap:14px;
+  align-items:center;
+  margin-bottom:14px;
+}
+
+.job-icon{
+  width:46px;
+  height:46px;
+  border-radius:12px;
+  background:linear-gradient(135deg,#2563eb,#1d4ed8);
+  color:#fff;
+  font-weight:800;
+  font-size:20px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+}
+
+.job-title{
+  font-weight:700;
+  margin-bottom:2px;
+  color:#0f172a;
+}
+
+.company-name{
+  font-size:14px;
+  color:#64748b;
+}
+
+/* Meta */
+.job-meta{
+  font-size:14px;
+  color:#475569;
+  margin-bottom:16px;
+}
+
+/* Action */
+.job-card-action{
+  text-align:right;
+}
+
+/* Empty */
+.empty-state{
+  background:#ffffff;
+  border-radius:22px;
+  box-shadow:0 20px 50px rgba(0,0,0,.06);
+}
+
+.empty-icon{
+  font-size:42px;
+  margin-bottom:10px;
+}
+</style>
+
+<section class="category-jobs-section py-5">
+  <div class="container">
+
+    <h2 class="fw-bold mb-4">
+      Jobs in "{{ category.name }}"
+    </h2>
+
+    <div class="row">
+      {% for job in jobs %}
+      <div class="col-lg-4 col-md-6 mb-4">
+
+        <div class="job-modern-card h-100">
+
+          <!-- Top -->
+          <div class="job-card-top">
+            <div class="job-icon">
+              {{ job.company.name|slice:":1"|upper }}
+            </div>
+            <div>
+              <h5 class="job-title">{{ job.title }}</h5>
+              <span class="company-name">{{ job.company.name }}</span>
+            </div>
+          </div>
+
+          <!-- Meta -->
+          <div class="job-meta">
+            <span>📍 {{ job.location }}</span>
+          </div>
+
+          <!-- Action -->
+          <div class="job-card-action">
+            <a href="{% url 'job_detail' job.id %}"
+               class="btn btn-outline-primary btn-sm">
+              View Job
+            </a>
+          </div>
+
+        </div>
+
+      </div>
+      {% empty %}
+      <div class="col-12">
+        <div class="empty-state text-center py-5">
+          <div class="empty-icon">📂</div>
+          <h5>No jobs in this category</h5>
+          <p class="text-muted">
+            New opportunities will appear here soon.
+          </p>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+
+  </div>
+</section>
+
+{% endblock %}

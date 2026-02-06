@@ -1,0 +1,131 @@
+{% extends "base.html" %}
+{% block title %}Create News{% endblock %}
+
+{% block content %}
+<div class="container my-5">
+
+  <div class="row justify-content-center">
+    <div class="col-lg-9">
+
+      <h3 class="fw-bold mb-4">
+        📰 Publish a News Article
+      </h3>
+
+      <div class="card shadow-sm border-0">
+        <div class="card-body p-4">
+
+          <form method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+
+            <!-- Title -->
+            <div class="mb-4">
+              <label class="form-label fw-semibold">
+                Article Title
+              </label>
+              <input type="text"
+                     name="title"
+                     class="form-control form-control-lg"
+                     placeholder="Enter a clear, compelling title"
+                     required>
+            </div>
+
+            <!-- Summary -->
+            <div class="mb-4">
+              <label class="form-label fw-semibold">
+                Short Summary
+              </label>
+              <textarea name="summary"
+                        rows="3"
+                        class="form-control"
+                        placeholder="Short intro shown on blog & SEO (max 2–3 lines)"
+                        required></textarea>
+              <div class="form-text">
+                This appears in previews and search results.
+              </div>
+            </div>
+
+            <!-- Featured Image -->
+            <div class="mb-4">
+              <label class="form-label fw-semibold">
+                Featured Image
+              </label>
+              <input type="file"
+                     name="featured_image"
+                     class="form-control">
+              <div class="form-text">
+                Recommended size: 1200×630px
+              </div>
+            </div>
+
+            <!-- Content -->
+            <div class="mb-4">
+              <label class="form-label fw-semibold">
+                Article Content
+              </label>
+              <textarea name="content"
+                        rows="10"
+                        class="form-control"
+                        placeholder="Write the full article here..."
+                        required></textarea>
+            </div>
+
+            <!-- Publishing Options -->
+            <div class="row">
+              <div class="col-md-6 mb-4">
+                <label class="form-label fw-semibold">
+                  Status
+                </label>
+                <select name="status" class="form-select">
+                  <option value="draft">Save as Draft</option>
+                  <option value="published">Publish Now</option>
+                </select>
+              </div>
+            </div>
+
+            <!-- SEO -->
+            <hr class="my-4">
+
+            <h6 class="fw-bold mb-3">
+              🔍 SEO Settings (Optional)
+            </h6>
+
+            <div class="mb-3">
+              <label class="form-label">
+                Meta Title
+              </label>
+              <input type="text"
+                     name="meta_title"
+                     class="form-control"
+                     placeholder="SEO title (optional)">
+            </div>
+
+            <div class="mb-4">
+              <label class="form-label">
+                Meta Description
+              </label>
+              <textarea name="meta_description"
+                        rows="2"
+                        class="form-control"
+                        placeholder="Short SEO description (optional)"></textarea>
+            </div>
+
+            <!-- Actions -->
+            <div class="d-flex justify-content-between align-items-center mt-4">
+              <a href="/" class="btn btn-outline-secondary">
+                ← Cancel
+              </a>
+              <button type="submit" class="btn btn-primary px-4">
+                Publish Article
+              </button>
+            </div>
+
+          </form>
+
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+</div>
+{% endblock %}

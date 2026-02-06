@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+{% block title %}Feature Job{% endblock %}
+{% block content %}
+
+<div class="container mt-5">
+  <h3 class="mb-4">Feature Job: {{ job.title }}</h3>
+
+  <div class="row">
+    {% for key, pack in packages.items %}
+      <div class="col-md-4">
+        <div class="card mb-3 text-center">
+          <div class="card-body">
+            <h5>{{ pack.days }} Days</h5>
+            <p class="text-muted">৳ {{ pack.price }}</p>
+
+            <form method="post">
+              {% csrf_token %}
+              <input type="hidden" name="package" value="{{ key }}">
+              <button class="btn btn-primary w-100">
+                Pay with Stripe (Test)
+              </button>
+            </form>
+
+          </div>
+        </div>
+      </div>
+    {% endfor %}
+  </div>
+</div>
+
+{% endblock %}

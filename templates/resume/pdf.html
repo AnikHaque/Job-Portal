@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <style>
+    body {
+      font-family: Helvetica;
+      font-size: 12px;
+      line-height: 1.6;
+      color: #111827;
+    }
+
+    .header {
+      border-bottom: 2px solid #111827;
+      padding-bottom: 10px;
+      margin-bottom: 20px;
+    }
+
+    .header-table {
+      width: 100%;
+    }
+
+    .photo {
+      width: 90px;
+      height: 90px;
+      border-radius: 6px;
+    }
+
+    .name {
+      font-size: 22px;
+      font-weight: bold;
+    }
+
+    .contact {
+      font-size: 11px;
+      color: #374151;
+    }
+
+    h3 {
+      font-size: 14px;
+      border-bottom: 1px solid #9ca3af;
+      margin-top: 20px;
+      margin-bottom: 6px;
+      padding-bottom: 3px;
+    }
+
+    .section {
+      margin-bottom: 12px;
+    }
+
+    .badge {
+      display: inline-block;
+      background: #e5e7eb;
+      padding: 4px 8px;
+      border-radius: 4px;
+      margin: 2px 4px 2px 0;
+      font-size: 11px;
+    }
+
+    .muted {
+      color: #6b7280;
+    }
+  </style>
+</head>
+
+<body>
+
+<!-- ================= HEADER ================= -->
+<div class="header">
+  <table class="header-table">
+    <tr>
+      <td width="100">
+        {% if resume.photo %}
+          <img src="{{ resume.photo.path }}" class="photo">
+        {% endif %}
+      </td>
+      <td>
+        <div class="name">{{ resume.full_name }}</div>
+        <div class="contact">
+          {{ resume.email }} | {{ resume.phone }}<br>
+          {{ resume.address }}<br>
+          {{ resume.website }}
+        </div>
+      </td>
+    </tr>
+  </table>
+</div>
+
+<!-- ================= SUMMARY ================= -->
+{% if resume.summary %}
+<div class="section">
+  <h3>Professional Summary</h3>
+  <p>{{ resume.summary }}</p>
+</div>
+{% endif %}
+
+<!-- ================= SKILLS ================= -->
+{% if skills_list %}
+<div class="section">
+  <h3>Skills</h3>
+  {% for skill in skills_list %}
+    <span class="badge">{{ skill }}</span>
+  {% endfor %}
+</div>
+{% endif %}
+
+<!-- ================= EXPERIENCE ================= -->
+{% if resume.experience %}
+<div class="section">
+  <h3>Professional Experience</h3>
+  <p>{{ resume.experience }}</p>
+</div>
+{% endif %}
+
+<!-- ================= EDUCATION ================= -->
+{% if resume.education %}
+<div class="section">
+  <h3>Education</h3>
+  <p>{{ resume.education }}</p>
+</div>
+{% endif %}
+
+<!-- ================= PROJECTS ================= -->
+{% if resume.projects %}
+<div class="section">
+  <h3>Projects</h3>
+  <p>{{ resume.projects }}</p>
+</div>
+{% endif %}
+
+<!-- ================= CERTIFICATIONS ================= -->
+{% if resume.certifications %}
+<div class="section">
+  <h3>Certifications & Awards</h3>
+  <p>{{ resume.certifications }}</p>
+</div>
+{% endif %}
+
+<!-- ================= LANGUAGES ================= -->
+{% if resume.languages %}
+<div class="section">
+  <h3>Languages</h3>
+  <p>{{ resume.languages }}</p>
+</div>
+{% endif %}
+
+<!-- ================= EXTRA CURRICULAR ================= -->
+{% if resume.extracurricular %}
+<div class="section">
+  <h3>Extra Curricular Activities</h3>
+  <p>{{ resume.extracurricular }}</p>
+</div>
+{% endif %}
+
+<!-- ================= REFERENCES ================= -->
+{% if resume.references %}
+<div class="section">
+  <h3>References</h3>
+  <p>{{ resume.references }}</p>
+</div>
+{% endif %}
+
+</body>
+</html>

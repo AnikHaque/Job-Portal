@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+{% block title %}Payment History{% endblock %}
+{% block content %}
+
+<h3 class="mb-4">Payment History</h3>
+
+<table class="table table-bordered">
+  <thead>
+    <tr>
+      <th>Date</th>
+      <th>Job</th>
+      <th>Amount</th>
+      <th>Status</th>
+      <th>Invoice</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for p in payments %}
+      <tr>
+        <td>{{ p.created_at|date:"d M Y" }}</td>
+        <td>{{ p.job.title }}</td>
+        <td>৳ {{ p.amount }}</td>
+        <td>
+          <span class="badge bg-success">{{ p.status }}</span>
+        </td>
+        <td>
+          <a href="{% url 'payment_invoice' p.id %}" class="btn btn-sm btn-primary">
+            View Invoice
+          </a>
+          <a href="{% url 'invoice_pdf' p.id %}"
+   class="btn btn-sm btn-outline-success">
+   PDF
+</a>
+
+        </td>
+       
+      </tr>
+    {% empty %}
+      <tr>
+        <td colspan="5" class="text-center">
+          No payments yet
+        </td>
+      </tr>
+    {% endfor %}
+  </tbody>
+</table>
+
+{% endblock %}

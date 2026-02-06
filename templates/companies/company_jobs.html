@@ -1,0 +1,116 @@
+{% extends "base.html" %}
+{% block content %}
+.company-jobs-section{
+  background:#f8fafc;
+}
+
+/* Header */
+.company-header{
+  text-align:center;
+}
+
+.company-name{
+  font-weight:800;
+  font-size:34px;
+  color:#0f172a;
+}
+
+.company-location{
+  color:#64748b;
+  font-size:16px;
+  margin-top:6px;
+}
+
+/* Job Card */
+.job-card{
+  background:#ffffff;
+  border-radius:20px;
+  padding:24px;
+  box-shadow:0 18px 45px rgba(0,0,0,.08);
+  display:flex;
+  flex-direction:column;
+  justify-content:space-between;
+  transition:.3s ease;
+}
+
+.job-card:hover{
+  transform:translateY(-6px);
+  box-shadow:0 28px 70px rgba(0,0,0,.12);
+}
+
+.job-title{
+  font-weight:700;
+  color:#0f172a;
+  margin-bottom:6px;
+}
+
+.job-location{
+  font-size:14px;
+  color:#64748b;
+}
+
+/* Footer */
+.job-card-footer{
+  margin-top:20px;
+}
+
+/* Empty */
+.empty-state{
+  background:#ffffff;
+  border-radius:24px;
+  box-shadow:0 20px 50px rgba(0,0,0,.06);
+}
+
+.empty-icon{
+  font-size:44px;
+  margin-bottom:10px;
+}
+
+<section class="company-jobs-section py-5">
+  <div class="container">
+
+    <!-- Company Header -->
+    <div class="company-header mb-5">
+      <h2 class="company-name">{{ company.name }}</h2>
+      <p class="company-location">{{ company.location }}</p>
+    </div>
+
+    <!-- Jobs Grid -->
+    <div class="row">
+      {% for job in jobs %}
+      <div class="col-lg-4 col-md-6 mb-4">
+        <div class="job-card h-100">
+
+          <div class="job-card-body">
+            <h5 class="job-title">{{ job.title }}</h5>
+            <p class="job-location">
+              📍 {{ job.location }}
+            </p>
+          </div>
+
+          <div class="job-card-footer">
+            <a href="{% url 'job_detail' job.id %}"
+               class="btn btn-outline-primary btn-sm">
+              View Job
+            </a>
+          </div>
+
+        </div>
+      </div>
+      {% empty %}
+      <div class="col-12">
+        <div class="empty-state text-center py-5">
+          <div class="empty-icon">🏢</div>
+          <h5>No jobs available</h5>
+          <p class="text-muted">
+            This company has not posted any jobs yet.
+          </p>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+
+  </div>
+</section>
+
+{% endblock %}

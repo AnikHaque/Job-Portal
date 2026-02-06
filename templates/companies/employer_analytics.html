@@ -1,0 +1,136 @@
+{% extends "base.html" %}
+{% block title %}Employer Analytics{% endblock %}
+
+{% block content %}
+<h3 class="mb-4">📊 Employer Analytics</h3>
+
+<!-- Summary cards -->
+<div class="row mb-4">
+  <div class="col-md-3">
+    <div class="card text-center shadow-sm">
+      <div class="card-body">
+        <h4>{{ total_jobs }}</h4>
+        <p class="text-muted">Total Jobs</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-md-3">
+    <div class="card text-center shadow-sm">
+      <div class="card-body">
+        <h4>{{ total_applications }}</h4>
+        <p class="text-muted">Total Applications</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-md-3">
+    <div class="card text-center shadow-sm">
+      <div class="card-body">
+        <h4 class="text-success">{{ shortlisted }}</h4>
+        <p class="text-muted">Shortlisted</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-md-3">
+    <div class="card text-center shadow-sm">
+      <div class="card-body">
+        <h4 class="text-danger">{{ rejected }}</h4>
+        <p class="text-muted">Rejected</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<hr>
+
+<!-- Job-wise table -->
+<h5 class="mb-3">📌 Job-wise Applicant Count</h5>
+
+<table class="table table-bordered mb-5">
+  <thead>
+    <tr>
+      <th>Job Title</th>
+      <th>Applicants</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for job in job_stats %}
+      <tr>
+        <td>{{ job.title }}</td>
+        <td>{{ job.applicants }}</td>
+      </tr>
+    {% empty %}
+      <tr>
+        <td colspan="2" class="text-center">
+          No jobs posted yet
+        </td>
+      </tr>
+    {% endfor %}
+  </tbody>
+</table>
+
+<!-- Charts row -->
+<div class="row mb-5">
+  <div class="col-md-6">
+    <h5 class="mb-3">🟢 Application Status</h5>
+    <canvas id="statusChart"></canvas>
+  </div>
+
+  <div class="col-md-6">
+    <h5 class="mb-3">📊 Applicants per Job</h5>
+    <canvas id="jobChart"></canvas>
+  </div>
+</div>
+
+<!-- Chart.js CDN -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<!-- Charts JS -->
+<script>
+  /* ===== PIE CHART: Shortlisted vs Rejected ===== */
+  const statusCtx = document.getElementById('statusChart');
+  const statusData = {{ status_counts|safe }};
+
+  new Chart(statusCtx, {
+    type: 'pie',
+    data: {
+      labels: ['Shortlisted', 'Rejected'],
+      datasets: [{
+        data: statusData,
+        backgroundColor: ['#198754', '#dc3545']
+      }]
+    }
+  });
+
+  /* ===== BAR CHART: Applicants per Job ===== */
+  const jobCtx = document.getElementById('jobChart');
+  const jobLabels = {{ job_titles|safe }};
+  const jobData = {{ applicant_counts|safe }};
+
+  new Chart(jobCtx, {
+    type: 'bar',
+    data: {
+      labels: jobLabels,
+      datasets: [{
+        label: 'Applicants',
+        data: jobData,
+        backgroundColor: '#0d6efd'
+      }]
+    },
+    options: {
+      responsive: true,
+      scales: {
+        y: {
+          beginAtZero: true,
+          ticks: {
+            stepSize: 1
+          }
+        }
+      }
+    }
+  });
+</script>
+
+{% endblock %}

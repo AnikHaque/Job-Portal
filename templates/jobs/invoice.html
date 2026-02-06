@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+{% block title %}Invoice{% endblock %}
+{% block content %}
+
+<div class="card">
+  <div class="card-body">
+
+    <h3 class="mb-3">Invoice</h3>
+    <a href="{% url 'invoice_pdf' payment.id %}"
+   class="btn btn-success mt-3">
+   ⬇ Download PDF
+</a>
+
+    <hr>
+
+    <p><strong>Invoice ID:</strong> {{ payment.id }}</p>
+    <p><strong>Date:</strong> {{ payment.created_at|date:"d M Y" }}</p>
+    <p><strong>Status:</strong> {{ payment.status }}</p>
+
+    <hr>
+
+    <p><strong>Company:</strong> {{ payment.job.company.name }}</p>
+    <p><strong>Job:</strong> {{ payment.job.title }}</p>
+    <p><strong>Featured Duration:</strong> {{ payment.days }} days</p>
+
+    <hr>
+
+    <h5>Total Paid: ৳ {{ payment.amount }}</h5>
+
+  </div>
+</div>
+
+{% endblock %}

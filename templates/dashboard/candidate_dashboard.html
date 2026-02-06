@@ -1,0 +1,17 @@
+{% extends "dashboard/base_dashboard.html" %}
+
+{% block title %}Candidate Dashboard{% endblock %}
+{% block sidebar_title %}Candidate{% endblock %}
+
+{% block sidebar_links %}
+<a href="{% url 'candidate_overview' %}">🏠 Dashboard</a>
+<a href="{% url 'candidate_resume' %}">📄 My Resume</a>
+<a href="{% url 'candidate_applied_jobs' %}">📨 Applied Jobs</a>
+<a href="{% url 'candidate_saved_jobs' %}">⭐ Saved Jobs</a>
+<a href="{% url 'candidate_settings' %}">⚙ Settings</a>
+<a href="{% url 'logout' %}">🚪 Logout</a>
+{% endblock %}
+
+{% block dashboard_content %}
+  {% include dashboard_page %}
+{% endblock %}

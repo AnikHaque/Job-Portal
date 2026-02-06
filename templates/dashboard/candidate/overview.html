@@ -1,0 +1,30 @@
+<h3 class="mb-4">Welcome, {{ request.user.username }}</h3>
+
+<div class="row">
+  <div class="col-md-4">
+    <div class="card shadow-sm text-center">
+      <div class="card-body">
+        <h4>{{ applied_count }}</h4>
+        <p class="text-muted">Applied Jobs</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-md-4">
+    <div class="card shadow-sm text-center">
+      <div class="card-body">
+        <h4>{{ saved_count }}</h4>
+        <p class="text-muted">Saved Jobs</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-md-4">
+    <div class="card shadow-sm text-center">
+      <div class="card-body">
+        <h4>{{ shortlisted_count }}</h4>
+        <p class="text-muted">Shortlisted</p>
+      </div>
+    </div>
+  </div>
+</div>

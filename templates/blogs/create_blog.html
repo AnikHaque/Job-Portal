@@ -1,0 +1,45 @@
+{% extends "dashboard/employer_dashboard.html" %}
+
+{% block dashboard_content %}
+<div class="card shadow-sm">
+  <div class="card-body">
+
+    <h4 class="mb-4">📝 Post a Blog</h4>
+
+    <form method="post" enctype="multipart/form-data">
+      {% csrf_token %}
+
+      <div class="mb-3">
+        <label>Title</label>
+        {{ form.title }}
+      </div>
+
+      <div class="mb-3">
+        <label>Slug</label>
+        {{ form.slug }}
+      </div>
+
+      <div class="mb-3">
+        <label>Thumbnail</label>
+        <input type="file" name="thumbnail" class="form-control">
+      </div>
+
+      <div class="mb-3">
+        <label>Content</label>
+        {{ form.content }}
+      </div>
+
+      <div class="form-check mb-3">
+        {{ form.is_published }}
+        <label class="form-check-label">Publish</label>
+      </div>
+
+      <button class="btn btn-primary w-100">
+        Publish Blog
+      </button>
+
+    </form>
+
+  </div>
+</div>
+{% endblock %}

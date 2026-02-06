@@ -1,0 +1,1668 @@
+{% extends "base.html" %}
+{% block title %}Find Jobs{% endblock %}
+{% block content %}
+
+<style>
+  /* ===== HERO FULL WIDTH ===== */
+  .hero-wrapper {
+    width: 100%;
+    background: linear-gradient(135deg, #e0f2fe, #ecfeff, #f0fdf4);
+    padding: 90px 0;
+  }
+
+  .hero-inner {
+    max-width: 1300px;
+    margin: auto;
+    
+  }
+
+  .hero-badge {
+    display: inline-block;
+    background: #d1fae5;
+    color: #047857;
+    font-size: .75rem;
+    font-weight: 600;
+    padding: 6px 14px;
+    border-radius: 999px;
+    margin-bottom: 16px;
+  }
+
+  .hero-title {
+    font-size: 3.2rem;
+    font-weight: 800;
+    line-height: 1.15;
+    letter-spacing: -1px;
+  }
+
+  .hero-text {
+    font-size: 1.05rem;
+    color: #475569;
+    margin: 22px 0 34px;
+    max-width: 520px;
+  }
+
+  .hero-search {
+    background: white;
+    border-radius: 18px;
+    padding: 14px;
+    display: flex;
+    gap: 10px;
+    box-shadow: 0 25px 60px rgba(15,23,42,.15);
+    max-width: 620px;
+  }
+
+  .hero-search input,
+  .hero-search select {
+    border: none;
+    outline: none;
+    background: #f8fafc;
+    padding: 14px 16px;
+    border-radius: 12px;
+    flex: 1;
+  }
+
+  .hero-search button {
+    background: #22c55e;
+    border: none;
+    width: 52px;
+    border-radius: 14px;
+    color: white;
+    font-size: 1.2rem;
+  }
+
+  .hero-stats {
+    display: flex;
+    gap: 22px;
+    margin-top: 28px;
+    flex-wrap: wrap;
+  }
+
+  .stat-box {
+    background: #ffffff;
+    padding: 14px 18px;
+    border-radius: 14px;
+    box-shadow: 0 10px 30px rgba(15,23,42,.1);
+    font-size: .9rem;
+    font-weight: 600;
+  }
+
+  .hero-links a {
+    margin-right: 18px;
+    font-weight: 600;
+    font-size: .9rem;
+    text-decoration: none;
+  }
+
+  .hero-image {
+    position: relative;
+  }
+
+  .hero-image img {
+    max-width: 100%;
+    border-radius: 24px;
+  }
+
+  /* ===== RESPONSIVE ===== */
+  @media (max-width: 992px) {
+    .hero-title {
+      font-size: 2.4rem;
+    }
+    .hero-wrapper {
+      padding: 70px 0;
+    }
+  }
+
+  /* ===== JOB CARD ===== */
+  .job-card {
+    border-radius: 14px;
+    transition: 0.3s ease;
+  }
+
+  .job-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 12px 30px rgba(0,0,0,0.15);
+  }
+
+  .section-title {
+    font-weight: 700;
+    margin-bottom: 30px;
+  }
+
+  .trust-box {
+    background: #f8fafc;
+    border-radius: 16px;
+    padding: 50px 20px;
+  }
+
+  .cta-box {
+    background: #020617;
+    color: white;
+    border-radius: 16px;
+    padding: 60px 30px;
+  }
+
+  @media (max-width: 768px) {
+    .hero h1 {
+      font-size: 2.1rem;
+    }
+  }
+
+  .category-section{
+    background-color: #f1fef8;
+    padding: 40px;
+    
+  }
+  .category-card {
+    background: #ffffff;
+    border-radius: 18px;
+    padding: 30px 20px;
+    text-align: center;
+    box-shadow: 0 20px 40px rgba(15,23,42,0.08);
+    transition: all .3s ease;
+    height: 100%;
+  }
+
+  .category-card:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 30px 60px rgba(15,23,42,0.15);
+  }
+
+  .category-icon {
+   
+    border-radius: 16px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.6rem;
+    margin: 0 auto 15px;
+  }
+  .category-icon img {
+    width: 100px;
+    height: 80px;
+  }
+
+  .category-name {
+    font-weight: 700;
+    margin-bottom: 6px;
+  }
+
+  .category-jobs {
+    font-size: 0.9rem;
+    color: #64748b;
+  }
+
+  .company-card {
+    background: #ffffff;
+    
+    padding: 28px 20px;
+    text-align: center;
+    box-shadow: 0 20px 40px rgba(15,23,42,0.08);
+    transition: .3s ease;
+    height: 100%;
+  }
+
+  .company-card:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 30px 60px rgba(15,23,42,0.15);
+  }
+
+  .company-logo {
+    width: 70px;
+    height: 70px;
+    border-radius: 16px;
+    background: #f1f5f9;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 15px;
+    font-weight: 700;
+    font-size: 1.4rem;
+  }
+
+  .company-name {
+    font-weight: 700;
+    margin-bottom: 6px;
+  }
+
+  .company-jobs {
+    font-size: .9rem;
+    color: #64748b;
+  }
+
+  .text-description{
+    font-size: 14px;
+  }
+
+  /* ===== Featured Jobs Section ===== */
+  .featured-wrapper {
+    padding: 80px 0;
+    background: #ffffff;
+  }
+
+  .featured-subtitle {
+    color: #22c55e;
+    font-weight: 600;
+    text-align: center;
+    margin-bottom: 6px;
+  }
+
+  .featured-title {
+    text-align: center;
+    font-weight: 800;
+    margin-bottom: 50px;
+  }
+
+  .featured-card {
+    background: #ffffff;
+    border-radius: 20px;
+    padding: 26px 26px 22px;
+    box-shadow: 0 30px 60px rgba(15,23,42,0.08);
+    transition: .3s ease;
+    height: 100%;
+  }
+
+  .featured-card:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 40px 80px rgba(15,23,42,0.15);
+  }
+
+  .job-type {
+    font-size: .85rem;
+    color: #475569;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    margin-bottom: 10px;
+  }
+
+  .job-title {
+    font-weight: 700;
+    font-size: 1.05rem;
+    margin-bottom: 8px;
+  }
+
+  .job-location {
+    font-size: .9rem;
+    color: #2563eb;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    margin-bottom: 18px;
+  }
+
+  .job-divider {
+    border-top: 1px solid #e5e7eb;
+    margin: 16px 0;
+  }
+
+  .job-footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: 10px;
+  }
+
+  .job-date {
+    font-size: .85rem;
+    color: #64748b;
+  }
+
+  .company-name {
+    font-weight: 600;
+    font-size: .9rem;
+  }
+
+  .company-logo {
+    width: 42px;
+    height: 42px;
+    border-radius: 12px;
+    background: #f8fafc;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .featured-btn {
+    margin-top: 50px;
+    text-align: center;
+  }
+
+  .featured-btn a {
+    background: #2563eb;
+    color: white;
+    padding: 14px 38px;
+    border-radius: 999px;
+    font-weight: 600;
+    text-decoration: none;
+    display: inline-block;
+  }
+
+  .featured-btn a:hover {
+    background: #1d4ed8;
+  }
+
+  /* ===== Companies Section ===== */
+  .company-wrapper {
+    padding: 90px 0;
+    background: #ffffff;
+  }
+
+  .company-subtitle {
+    color: #22c55e;
+    font-weight: 600;
+    text-align: center;
+    margin-bottom: 6px;
+  }
+
+  .company-title {
+    text-align: center;
+    font-weight: 800;
+    margin-bottom: 55px;
+  }
+
+  .company-card {
+    background: #ffffff;
+    border-radius: 22px;
+    padding: 38px 28px;
+    text-align: center;
+    box-shadow: 0 30px 60px rgba(15,23,42,0.08);
+    transition: .35s ease;
+    height: 100%;
+  }
+
+  .company-card:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 40px 80px rgba(15,23,42,0.15);
+  }
+
+  .company-logo-box {
+    width: 80px;
+    height: 80px;
+    border-radius: 20px;
+    background: #f8fafc;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 18px;
+  }
+
+  .company-logo-box img {
+    max-width: 42px;
+  }
+
+  .company-name {
+    font-weight: 700;
+    font-size: 1.05rem;
+    margin-bottom: 6px;
+  }
+
+  .company-location {
+    font-size: .9rem;
+    color: #64748b;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    margin-bottom: 14px;
+  }
+
+  .company-jobs {
+    background: #eef2ff;
+    color: #2563eb;
+    font-size: .85rem;
+    font-weight: 600;
+    padding: 8px 16px;
+    border-radius: 999px;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  .company-btn {
+    text-align: center;
+    margin-top: 55px;
+  }
+
+  .company-btn a {
+    background: #2563eb;
+    color: white;
+    padding: 14px 42px;
+    border-radius: 999px;
+    font-weight: 600;
+    text-decoration: none;
+    display: inline-block;
+  }
+
+  .company-btn a:hover {
+    background: #1d4ed8;
+  }
+
+  .city-section {
+    padding: 80px 0;
+    background: #f8fafc;
+  }
+
+  .city-card {
+    position: relative;
+    height: 320px;
+    border-radius: 22px;
+    overflow: hidden;
+    box-shadow: 0 30px 60px rgba(15,23,42,0.18);
+    transition: all .35s ease;
+  }
+
+  .city-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 45px 90px rgba(15,23,42,0.35);
+  }
+
+  .city-bg {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .city-overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+      to bottom,
+      rgba(0,0,0,.15),
+      rgba(0,0,0,.65)
+    );
+  }
+
+  .city-name {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    color: #fff;
+    font-weight: 800;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    font-size: .95rem;
+  }
+
+  .city-jobs {
+    position: absolute;
+    bottom: 20px;
+    left: 20px;
+    background: rgba(0,0,0,.55);
+    color: #fff;
+    padding: 8px 16px;
+    border-radius: 999px;
+    font-weight: 600;
+    font-size: .85rem;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .city-jobs span {
+    background: #22c55e;
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: .9rem;
+  }
+
+  @media (max-width: 768px) {
+    .city-card {
+      height: 260px;
+    }
+  }
+
+
+  .latest-jobs {
+    padding: 80px 0;
+    background: #f8fafc;
+  }
+
+  .latest-card {
+    background: #ffffff;
+    border-radius: 22px;
+    padding: 28px;
+    box-shadow: 0 25px 60px rgba(15,23,42,.08);
+    transition: all .35s ease;
+    height: 100%;
+  }
+
+  .latest-card:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 40px 80px rgba(15,23,42,.15);
+  }
+
+  .job-type {
+    display: inline-block;
+    font-size: .75rem;
+    font-weight: 600;
+    padding: 6px 14px;
+    border-radius: 999px;
+    margin-bottom: 14px;
+  }
+
+  .job-full { background:#dcfce7; color:#166534; }
+  .job-part { background:#e0f2fe; color:#075985; }
+  .job-free { background:#f3e8ff; color:#6b21a8; }
+
+  .latest-card h5 {
+    font-weight: 700;
+    margin-bottom: 14px;
+  }
+
+  .job-meta {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: .9rem;
+    color: #475569;
+    margin-bottom: 6px;
+  }
+
+  .job-meta i {
+    color: #2563eb;
+  }
+
+  .job-divider {
+    border-top: 1px solid #e2e8f0;
+    margin: 18px 0;
+  }
+
+  .company-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .company-info {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .company-logo {
+    width: 44px;
+    height: 44px;
+    border-radius: 12px;
+    background: #f1f5f9;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+  }
+
+  .company-logo img {
+    width: 70%;
+    height: auto;
+  }
+
+  .posted {
+    font-size: .8rem;
+    color: #64748b;
+  }
+
+  .apply-btn {
+    border-radius: 999px;
+    padding: 8px 20px;
+    font-size: .85rem;
+    font-weight: 600;
+  }
+
+  .news-section {
+  background: #ffffff;
+}
+
+.news-card {
+  background: #fff;
+  border-radius: 22px;
+  overflow: hidden;
+  box-shadow: 0 20px 50px rgba(15, 23, 42, 0.08);
+  transition: all .35s ease;
+}
+
+.news-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 30px 70px rgba(15, 23, 42, 0.15);
+}
+
+/* Image */
+.news-image {
+  position: relative;
+  height: 230px;
+}
+
+.news-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.badge-category {
+  position: absolute;
+  top: 16px;
+  left: 16px;
+  background: #2563eb;
+  color: #fff;
+  font-size: 12px;
+  padding: 6px 14px;
+  border-radius: 999px;
+}
+
+/* Body */
+.news-body {
+  padding: 26px;
+}
+
+.news-meta {
+  font-size: 14px;
+  color: #64748b;
+}
+
+.news-title {
+  font-weight: 700;
+  line-height: 1.35;
+  margin-bottom: 12px;
+}
+
+.news-excerpt {
+  color: #475569;
+  font-size: 15px;
+  line-height: 1.6;
+}
+
+/* Footer */
+.news-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 22px;
+}
+
+.author {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.author img {
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+}
+
+.read-link {
+  font-weight: 600;
+  color: #2563eb;
+  text-decoration: none;
+}
+
+.read-link:hover {
+  text-decoration: underline;
+}
+
+/* ================= APP PROMO ================= */
+.app-promo-section {
+  padding: 100px 0;
+  background: #ffffff;
+}
+
+.app-mockup {
+  max-height: 520px;
+}
+
+/* Store buttons */
+.store-btn img {
+  height: 54px;
+  transition: .25s ease;
+}
+
+.store-btn img:hover {
+  transform: translateY(-3px);
+}
+
+/* ===== Section ===== */
+.news-section{
+  background:linear-gradient(180deg,#f8fafc,#ffffff);
+}
+
+/* ===== Card ===== */
+.news-card{
+  background:#fff;
+  border-radius:22px;
+  overflow:hidden;
+  box-shadow:0 15px 40px rgba(0,0,0,.06);
+  transition:.35s ease;
+  display:flex;
+  flex-direction:column;
+}
+
+.news-card:hover{
+  transform:translateY(-10px);
+  box-shadow:0 30px 70px rgba(0,0,0,.12);
+}
+
+/* ===== Image ===== */
+.news-image{
+  position:relative;
+  overflow:hidden;
+}
+
+.news-image img{
+  width:100%;
+  height:230px;
+  object-fit:cover;
+  transition:.6s ease;
+}
+
+.news-card:hover .news-image img{
+  transform:scale(1.08);
+}
+
+/* ===== Category Badge ===== */
+.badge-category{
+  position:absolute;
+  top:18px;
+  left:18px;
+  background:rgba(0,0,0,.75);
+  backdrop-filter:blur(6px);
+  color:#fff;
+  padding:6px 14px;
+  border-radius:20px;
+  font-size:12px;
+  font-weight:600;
+  letter-spacing:.4px;
+}
+
+/* ===== Body ===== */
+.news-body{
+  padding:28px;
+  display:flex;
+  flex-direction:column;
+
+}
+
+.news-meta{
+  font-size:13px;
+  color:#64748b;
+}
+
+/* ===== Title ===== */
+.news-title{
+  font-size:20px;
+  font-weight:700;
+  line-height:1.4;
+  margin:10px 0 12px;
+  color:#0f172a;
+}
+
+.news-title:hover{
+  color:#2563eb;
+}
+
+
+
+/* ===== Footer ===== */
+.news-footer{
+  margin-top:auto;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  
+}
+
+/* ===== Author ===== */
+.author{
+  display:flex;
+  align-items:center;
+  gap:12px;
+}
+
+.author img{
+  width:42px;
+  height:42px;
+  border-radius:50%;
+  border:2px solid #e5e7eb;
+}
+
+/* ===== Read Link ===== */
+.read-link{
+  text-decoration:none;
+  font-weight:600;
+  font-size:14px;
+  color:#2563eb;
+  position:relative;
+}
+
+.read-link::after{
+  content:'';
+  position:absolute;
+  left:0;
+  bottom:-3px;
+  width:0;
+  height:2px;
+  background:#2563eb;
+  transition:.3s;
+}
+
+.read-link:hover::after{
+  width:100%;
+}
+
+.how-it-works-section{
+  background: linear-gradient(180deg, #f4fff9, #ffffff);
+}
+
+.how-card{
+  background:#fff;
+  border-radius:20px;
+  padding:45px 30px;
+  box-shadow:0 20px 40px rgba(0,0,0,0.05);
+  transition:0.3s ease;
+  height:100%;
+}
+
+.how-card:hover{
+  transform:translateY(-8px);
+}
+
+.icon-circle{
+  width:80px;
+  height:80px;
+  background:#eef2ff;
+  border-radius:50%;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  margin:0 auto;
+}
+
+.icon-circle i{
+  font-size:32px;
+  color:#4f46e5;
+}
+
+.cta-box{
+  padding:30px 40px;
+  border-radius:60px;
+  color:#fff;
+  min-height:130px;
+}
+
+.cta-blue{
+  background:linear-gradient(90deg, #0d5ef4, #0a4cd9);
+}
+
+.cta-green{
+  background:linear-gradient(90deg, #20d07a, #18c96f);
+}
+
+.cta-box h4{
+  font-size:22px;
+}
+
+.cta-box p{
+  font-size:15px;
+  opacity:0.9;
+}
+
+.cta-icon{
+  width:60px;
+  height:60px;
+  background:rgba(255,255,255,0.2);
+  border-radius:50%;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+}
+
+.cta-icon i{
+  font-size:26px;
+  color:#fff;
+}
+.success-carousel-section{
+  background:#f1f8ff;
+}
+
+.section-subtitle{
+  color:#22c55e;
+  font-weight:600;
+}
+
+.section-title{
+  font-size:36px;
+  font-weight:800;
+  color:#0f172a;
+}
+
+/* Card */
+.story-card{
+  background:#fff;
+  border-radius:22px;
+  padding:36px 32px;
+  box-shadow:0 25px 60px rgba(0,0,0,.08);
+  height:100%;
+  text-align:left;
+}
+
+.quote-icon{
+  font-size:42px;
+  color:#2563eb;
+  font-weight:900;
+}
+
+.story-text{
+  font-size:16px;
+  color:#475569;
+  line-height:1.7;
+}
+
+/* User */
+.story-user{
+  display:flex;
+  align-items:center;
+  gap:14px;
+  margin-top:24px;
+}
+
+.avatar{
+  width:48px;
+  height:48px;
+  border-radius:50%;
+  background:linear-gradient(135deg,#2563eb,#1d4ed8);
+  color:#fff;
+  font-weight:800;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+}
+
+.user-info span{
+  font-size:13px;
+  color:#64748b;
+}
+</style>
+
+<!-- ================= HERO SECTION ================= -->
+<div class="hero-wrapper">
+  <div class="hero-inner">
+    <div class="row align-items-center">
+
+      <!-- LEFT -->
+      <div class="col-lg-6 mb-5 mb-lg-0">
+        <span class="hero-badge">
+          READY TO FIND YOUR DREAM JOB?
+        </span>
+
+        <h1 class="hero-title">
+          Take the next step in <br>
+          your career journey.
+        </h1>
+
+        <p class="hero-text">
+          Explore opportunities that match your skills and passions, and land
+          the job you've always wanted with JobPortal.
+        </p>
+
+        <!-- SEARCH -->
+        <form method="get" class="hero-search">
+          <input type="text"
+                 name="q"
+                 value="{{ request.GET.q }}"
+                 placeholder="Enter skills or job title">
+
+          <select name="category">
+            <option value="">Select Category</option>
+            {% for category in categories %}
+              <option value="{{ category.slug }}">
+                {{ category.name }}
+              </option>
+            {% endfor %}
+          </select>
+
+          <button type="submit">
+            🔍
+          </button>
+        </form>
+
+        <!-- STATS -->
+        <div class="hero-stats">
+          <div class="stat-box">
+            <strong class="text-primary">50k+</strong><br>
+            Active Jobs
+          </div>
+
+          <div class="hero-links mt-3">
+            <a href="{% url 'create_job' %}" class="text-success">
+              ➕ Post Your Job
+            </a>
+            <a href="{% url 'job_list' %}" class="text-primary">
+              🔍 Search Jobs
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <!-- RIGHT -->
+      <div class="col-lg-6 text-center hero-image">
+        <img src="https://sharjeelanjum.com/html/jobs-portal/images/hero-image.png"
+             alt="Job Search">
+      </div>
+
+    </div>
+  </div>
+</div>
+
+
+
+
+<!-- ================= REST OF CONTENT (NORMAL WIDTH) ================= -->
+<div class="">
+<section class="cta-section py-5">
+  <div class="container">
+    <div class="row g-4">
+
+      <!-- Left CTA -->
+      <div class="col-lg-6">
+        <div class="cta-box cta-blue d-flex align-items-center justify-content-between">
+          <div>
+            <h4 class="fw-bold mb-1">Search your desired Job</h4>
+            <p class="mb-0">Discover a career you are passionate about</p>
+          </div>
+          <div class="cta-icon">
+            <i class="bi bi-search"></i>
+          </div>
+        </div>
+      </div>
+
+      <!-- Right CTA -->
+      <div class="col-lg-6">
+        <div class="cta-box cta-green d-flex align-items-center justify-content-between">
+          <div>
+            <h4 class="fw-bold mb-1">Post a Job Today</h4>
+            <p class="mb-0">Discover the ideal candidate for your team</p>
+          </div>
+          <div class="cta-icon">
+            <i class="bi bi-send-fill"></i>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+
+  <!-- <section class="container my-5">
+  <h2 class="fw-bold mb-4 text-center">
+    Companies Hiring Right Now
+  </h2>
+
+  <div class="row g-4">
+
+    {% for company in companies %}
+    <div class="col-lg-3 col-md-6">
+      <a href="{% url 'jobs_by_company' company.id %}"
+         class="text-decoration-none text-dark">
+
+        <div class="company-card">
+
+          <div class="company-logo">
+            {% if company.logo %}
+              <img src="{{ company.logo.url }}" class="img-fluid">
+            {% else %}
+              {{ company.name|slice:":1" }}
+            {% endif %}
+          </div>
+
+          <div class="company-name">
+            {{ company.name }}
+          </div>
+<div class="">
+            {{ company.location }}
+          </div>
+          <div class="company-jobs">
+            {{ company.total_jobs }} Open Job{{ company.total_jobs|pluralize }}
+          </div>
+
+        </div>
+
+      </a>
+    </div>
+    {% endfor %}
+
+  </div>
+</section> -->
+
+  
+
+<section class="company-wrapper">
+  <div class="container">
+
+    <div class="company-subtitle">
+      Here You Can See
+    </div>
+
+    <h2 class="company-title">
+      Top Companies are Hiring
+    </h2>
+
+    <div class="row g-4">
+
+      {% for company in companies %}
+      <div class="col-lg-3 col-md-6">
+        <a href="{% url 'jobs_by_company' company.id %}"
+           class="text-decoration-none text-dark">
+
+          <div class="company-card">
+
+            <div class="company-logo-box">
+              {% if company.logo %}
+                <img src="{{ company.logo.url }}">
+              {% else %}
+                {{ company.name|slice:":1" }}
+              {% endif %}
+            </div>
+
+            <div class="company-name">
+              {{ company.name }}
+            </div>
+
+            <div class="company-location">
+              📍 {{ company.location }}
+            </div>
+
+            <div class="company-jobs">
+              💼 {{ company.total_jobs }} Open Job{{ company.total_jobs|pluralize }}
+            </div>
+
+          </div>
+
+        </a>
+      </div>
+      {% endfor %}
+
+    </div>
+
+    <div class="company-btn">
+      <a href="#">
+        View All Featured Companies
+      </a>
+    </div>
+
+  </div>
+</section>
+
+
+<section class="category-section">
+    <div class="container mb-5">
+<h2 class=" mb-4 text-center mt-4">
+    Browse Jobs by Category
+  </h2>
+
+  <div class="row g-4">
+    {% for category in categories %}
+    <div class="col-lg-2 col-md-6">
+      <a href="{% url 'jobs_by_category' category.slug %}"
+         class="text-decoration-none text-dark">
+
+        <div class="category-card">
+          <div class="category-icon">
+            {% if category.logo %}
+      <img src="{{ category.logo.url }}" alt="{{ category.name }}" class="w-4">
+    {% else %}
+      📁
+    {% endif %}
+          </div>
+
+          <div class="category-name">
+            {{ category.name }}
+          </div>
+
+          <div class="category-jobs">
+            {{ category.total_jobs }} Open Job{{ category.total_jobs|pluralize }}
+          </div>
+        </div>
+
+      </a>
+    </div>
+    {% endfor %}
+  </div>
+    </div>
+  
+</section>
+
+
+
+  <!-- {% if featured_jobs %}
+  <h2 class="section-title text-warning">⭐ Featured Jobs</h2>
+  <div class="row">
+    {% for job in featured_jobs %}
+    <div class="col-lg-4 col-md-6 mb-4">
+      <div class="card job-card h-100 border-warning">
+        <div class="card-body d-flex flex-column">
+          <h5>{{ job.title }}</h5>
+          <p class="text-muted">{{ job.company.name }}</p>
+          <p class="small text-muted">{{ job.location }}</p>
+          <div class="mt-auto">
+            <a href="{% url 'job_detail' job.id %}"
+               class="btn btn-outline-primary btn-sm w-100">
+              View Job
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+  {% endif %} -->
+
+  <section class="featured-wrapper">
+  <div class="container">
+
+    <div class="featured-subtitle">
+      Here You Can See
+    </div>
+
+    <h2 class="featured-title">
+      Featured <span class="text-primary">Jobs</span>
+    </h2>
+
+    <div class="row g-4">
+
+      {% for job in featured_jobs %}
+      <div class="col-lg-3 col-md-6">
+        <div class="featured-card">
+
+          <div class="job-type">
+            🧳 {{ job.get_job_type_display }}
+          </div>
+
+          <div class="job-title">
+            {{ job.title }}
+          </div>
+
+          <div class="job-location">
+            📍 {{ job.location }}
+          </div>
+
+          <div class="job-divider"></div>
+
+          <div class="job-footer">
+            <div>
+              <div class="job-date">
+                {{ job.created_at|date:"M d, Y" }}
+              </div>
+              <div class="company-name">
+                {{ job.company.name }}
+              </div>
+            </div>
+
+            <div class="company-logo">
+              {% if job.company.logo %}
+                <img src="{{ job.company.logo.url }}" class="img-fluid">
+              {% else %}
+                {{ job.company.name|slice:":1" }}
+              {% endif %}
+            </div>
+            
+          </div>
+<a href="{% url 'job_detail' job.id %}"
+               class="btn btn-outline-primary btn-sm w-100">
+              View Job
+            </a>
+        </div>
+      </div>
+      {% endfor %}
+
+    </div>
+
+    <div class="featured-btn">
+      <a href="{% url 'job_list' %}">
+        View All Featured Jobs
+      </a>
+    </div>
+
+  </div>
+</section>
+
+  <section class="how-it-works-section py-5">
+  <div class="container text-center">
+    
+    <p class="text-success fw-semibold mb-1">Simple Steps</p>
+    <h2 class="fw-bold mb-5">How It Works</h2>
+
+    <div class="row g-4 justify-content-center">
+
+      <!-- Card 1 -->
+      <div class="col-lg-4 col-md-6">
+        <div class="how-card">
+          <div class="icon-circle">
+            <i class="bi bi-person-plus"></i>
+          </div>
+          <h5 class="fw-bold mt-4">Create An Account</h5>
+          <p class="text-muted mt-2">
+            It's very easy to open an account and start your journey.
+          </p>
+        </div>
+      </div>
+
+      <!-- Card 2 -->
+      <div class="col-lg-4 col-md-6">
+        <div class="how-card">
+          <div class="icon-circle">
+            <i class="bi bi-file-earmark-text"></i>
+          </div>
+          <h5 class="fw-bold mt-4">Complete your profile</h5>
+          <p class="text-muted mt-2">
+            Share all the key details so employers can get to know you.
+          </p>
+        </div>
+      </div>
+
+      <!-- Card 3 -->
+      <div class="col-lg-4 col-md-6">
+        <div class="how-card">
+          <div class="icon-circle">
+            <i class="bi bi-send"></i>
+          </div>
+          <h5 class="fw-bold mt-4">Apply job or hire</h5>
+          <p class="text-muted mt-2">
+            Apply to your preferred jobs or hire top talent effortlessly.
+          </p>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+
+
+  <section class="latest-jobs">
+  <div class="container">
+
+    <div class="text-center mb-5">
+      <small class="text-success fw-semibold">
+        Here You Can See
+      </small>
+      <h2 class="fw-bold">
+        Latest <span class="text-primary">Jobs</span>
+      </h2>
+    </div>
+
+    <div class="row g-4">
+
+      {% for job in jobs|slice:":6" %}
+      <div class="col-lg-3 col-md-6">
+        <div class="latest-card">
+
+          {% if job.job_type == 'full_time' %}
+            <span class="job-type job-full">Full Time</span>
+          {% elif job.job_type == 'part_time' %}
+            <span class="job-type job-part">Part Time</span>
+          {% else %}
+            <span class="job-type job-free">Freelance</span>
+          {% endif %}
+
+          <h5>{{ job.title }}</h5>
+
+          <div class="job-meta">
+            <i class="bi bi-building"></i>
+            {{ job.company.name }}
+          </div>
+
+          <div class="job-meta">
+            <i class="bi bi-geo-alt-fill"></i>
+            {{ job.location }}
+          </div>
+
+          <div class="job-divider"></div>
+
+          <div class="company-row">
+            <div class="company-info">
+              <div class="company-logo">
+                {% if job.company.logo %}
+                  <img src="{{ job.company.logo.url }}">
+                {% else %}
+                  <img src="https://cdn-icons-png.flaticon.com/512/5968/5968705.png">
+                {% endif %}
+              </div>
+
+              <div>
+                <div class="posted">Posted on</div>
+                <strong>{{ job.created_at|date:"M d, Y" }}</strong>
+              </div>
+            </div>
+
+            <a href="{% url 'job_detail' job.id %}"
+               class="btn btn-outline-primary apply-btn mt-3">
+              Apply
+            </a>
+          </div>
+
+        </div>
+      </div>
+      {% endfor %}
+
+    </div>
+
+  </div>
+</section>
+
+
+ <section class="city-section">
+  <div class="container">
+
+    <div class="text-center mb-5">
+      <small class="text-success fw-semibold">
+        Choose Your Location
+      </small>
+      <h2 class="fw-bold">
+        Jobs by Cities
+      </h2>
+    </div>
+
+    <div class="row g-4">
+      {% for city in cities|slice:":4" %}
+      <div class="col-lg-3 col-md-6">
+        <a href="{% url 'jobs_by_city' city.city %}"
+           class="text-decoration-none">
+
+          <div class="city-card">
+
+            <!-- Background image (static / random city) -->
+            <img
+              src="https://sharjeelanjum.com/html/jobs-portal/images/cities/barrington.jpg"
+              class="city-bg"
+              alt="{{ city.city }}">
+
+            <div class="city-overlay"></div>
+
+            <div class="city-name">
+              {{ city.city|upper }}
+            </div>
+
+            <div class="city-jobs">
+              <span>💼</span>
+              {{ city.total_jobs }} Jobs
+            </div>
+
+          </div>
+
+        </a>
+      </div>
+      {% endfor %}
+    </div>
+
+  </div>
+</section>
+
+<section class="app-promo-section">
+  <div class="container">
+    <div class="row align-items-center">
+
+      <!-- LEFT : MOBILE MOCKUPS -->
+      <div class="col-lg-6 text-center mb-5 mb-lg-0">
+        <img
+          src="https://sharjeelanjum.com/html/jobs-portal/images/app-screens.png"
+          alt="JobsPortal App"
+          class="img-fluid app-mockup">
+      </div>
+
+      <!-- RIGHT : CONTENT -->
+      <div class="col-lg-6">
+        <span class="text-success fw-semibold small">
+          Step Forward Now
+        </span>
+
+        <h2 class="fw-bold mt-2 mb-3">
+          The JobsPortal APP
+        </h2>
+
+        <p class="text-muted mb-4">
+          A world of opportunity in your hand
+        </p>
+
+        <p class="text-muted mb-4" style="max-width:520px;">
+          Aliquam vestibulum cursus felis. In iaculis iaculis sapien ac
+          condimentum. Vestibulum congue posuere lacus, id tincidunt nisi
+          porta sit amet. Suspendisse et sapien varius.
+        </p>
+
+        <!-- STORE BUTTONS -->
+        <div class="d-flex gap-3 flex-wrap">
+          <a href="#" class="store-btn">
+            <img src="https://developer.apple.com/assets/elements/badges/download-on-the-app-store.svg">
+          </a>
+
+          <a href="#" class="store-btn">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/7/78/Google_Play_Store_badge_EN.svg">
+          </a>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+
+
+<section class="success-carousel-section py-5">
+  <div class="container text-center">
+
+    <p class="section-subtitle">Stories from our community</p>
+    <h2 class="section-title mb-5">Success Stories</h2>
+
+    <div class="swiper successSwiper">
+      <div class="swiper-wrapper">
+
+        {% for story in success_stories %}
+        <div class="swiper-slide">
+          <div class="story-card">
+
+            <div class="quote-icon">“</div>
+
+            <p class="story-text">
+              "{{ story.story|truncatewords:30 }}"
+            </p>
+
+            <div class="story-user">
+              <div class="avatar">
+                {{ story.user.username|slice:":1"|upper }}
+              </div>
+              <div class="user-info">
+                <strong>
+                  {{ story.user.get_full_name|default:story.user.username }}
+                </strong>
+                <span>
+                  {% if story.story_type == 'candidate' %}
+                    Candidate
+                  {% else %}
+                    {{ story.company_name }}
+                  {% endif %}
+                </span>
+              </div>
+            </div>
+
+          </div>
+        </div>
+        {% endfor %}
+
+      </div>
+
+      <!-- Arrows -->
+      <div class="swiper-button-next"></div>
+      <div class="swiper-button-prev"></div>
+    </div>
+
+  </div>
+</section>
+
+
+
+<section class="news-section py-5">
+  <div class="container">
+
+    <!-- Heading -->
+    <div class="text-center mb-5">
+      <span class="text-success fw-semibold">Our Blog</span>
+      <h2 class="fw-bold mt-2">Latest Blog Posts</h2>
+    </div>
+
+    <div class="row g-4">
+
+      {% for news in news_list %}
+      <div class="col-lg-4 col-md-6">
+        <div class="news-card h-100">
+
+          <!-- Image -->
+          <div class="news-image">
+            <span class="badge-category">{{ news.category }}</span>
+            <img src="{{ news.featured_image.url }}" alt="{{ news.title }}">
+          </div>
+
+          <!-- Content -->
+          <div class="news-body">
+            <div class="news-meta mb-2">
+              {{ news.created_at|date:"d M" }} • {{ news.read_time }} min read
+            </div>
+
+            <h5 class="news-title">
+              {{ news.title }}
+            </h5>
+
+            <p class="news-excerpt">
+              {{ news.content|slice:":100" }}
+            </p>
+
+            <div class="">
+             
+
+              <a href="{% url 'news_detail' news.slug %}" class="read-link">
+                Read article →
+              </a>
+            </div>
+          </div>
+
+        </div>
+      </div>
+      {% endfor %}
+
+    </div>
+
+  </div>
+</section>
+
+
+
+
+
+
+
+</div>
+
+{% endblock %}

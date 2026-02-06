@@ -1,0 +1,96 @@
+{% extends "base.html" %}
+{% block content %}
+<style>
+.success-section{
+  background:linear-gradient(180deg,#f0fdf4,#ffffff);
+  min-height:70vh;
+  display:flex;
+  align-items:center;
+}
+
+.success-card{
+  background:#fff;
+  padding:60px 40px;
+  border-radius:26px;
+  box-shadow:0 30px 80px rgba(0,0,0,.1);
+  max-width:600px;
+  margin:auto;
+}
+
+/* Icon */
+.success-icon{
+  width:90px;
+  height:90px;
+  margin:0 auto 25px;
+  border-radius:50%;
+  background:linear-gradient(135deg,#22c55e,#16a34a);
+  color:#fff;
+  font-size:42px;
+  font-weight:900;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  box-shadow:0 15px 40px rgba(34,197,94,.4);
+}
+
+/* Text */
+.success-title{
+  font-size:32px;
+  font-weight:800;
+  color:#0f172a;
+}
+
+.success-text{
+  font-size:18px;
+  color:#475569;
+  margin:15px 0 35px;
+}
+
+/* Buttons */
+.success-actions{
+  display:flex;
+  justify-content:center;
+  gap:18px;
+  flex-wrap:wrap;
+}
+
+.success-actions .btn{
+  padding:14px 34px;
+  border-radius:14px;
+  font-weight:700;
+}
+</style>
+
+<section class="success-section py-5">
+  <div class="container">
+    <div class="success-card text-center">
+
+      <!-- Icon -->
+      <div class="success-icon">
+        ✓
+      </div>
+
+      <!-- Text -->
+      <h2 class="success-title">
+        Application Submitted!
+      </h2>
+
+      <p class="success-text">
+        You have successfully applied for  
+        <strong>{{ job.title }}</strong>
+      </p>
+
+      <!-- Actions -->
+      <div class="success-actions">
+        <a href="/" class="btn btn-primary btn-lg">
+          Back to Jobs
+        </a>
+        <a href="/dashboard/" class="btn btn-outline-secondary btn-lg">
+          View Dashboard
+        </a>
+      </div>
+
+    </div>
+  </div>
+</section>
+{% endblock %}

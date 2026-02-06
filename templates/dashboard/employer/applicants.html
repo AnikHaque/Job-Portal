@@ -1,0 +1,87 @@
+<h3 class="mb-4">Applicants</h3>
+
+<div class="card shadow-sm">
+  <div class="card-body">
+
+    <div class="table-responsive">
+      <table class="table table-hover align-middle">
+        <thead class="table-light">
+          <tr>
+            <th>Candidate</th>
+            <th>Job</th>
+            <th>Applied On</th>
+            <th>Status</th>
+            <th class="text-end">Actions</th>
+          </tr>
+        </thead>
+
+        <tbody>
+          {% for app in applications %}
+          <tr>
+
+            <!-- Candidate -->
+            <td>
+              <strong>{{ app.applicant.username }}</strong><br>
+              <small class="text-muted">{{ app.applicant.email }}</small>
+            </td>
+
+            <!-- Job -->
+            <td>
+              {{ app.job.title }}
+            </td>
+
+            <!-- Date -->
+            <td>
+              {{ app.applied_at|date:"d M Y" }}
+            </td>
+
+            <!-- Status -->
+            <td>
+              {% if app.status == 'shortlisted' %}
+                <span class="badge bg-success">Shortlisted</span>
+              {% elif app.status == 'rejected' %}
+                <span class="badge bg-danger">Rejected</span>
+              {% else %}
+                <span class="badge bg-secondary">Pending</span>
+              {% endif %}
+            </td>
+
+            <!-- Actions -->
+            <td class="text-end">
+
+              {% if app.resume %}
+              <a href="{{ app.resume.url }}"
+                 class="btn btn-outline-dark btn-sm"
+                 target="_blank">
+                📄 Resume
+              </a>
+              {% endif %}
+
+              {% if app.status == 'pending' %}
+                <a href="{% url 'update_application_status' app.id 'shortlisted' %}"
+                   class="btn btn-success btn-sm">
+                  ✔ Shortlist
+                </a>
+
+                <a href="{% url 'update_application_status' app.id 'rejected' %}"
+                   class="btn btn-danger btn-sm">
+                  ✖ Reject
+                </a>
+              {% endif %}
+
+            </td>
+
+          </tr>
+          {% empty %}
+          <tr>
+            <td colspan="5" class="text-center text-muted">
+              No applicants found
+            </td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+
+  </div>
+</div>

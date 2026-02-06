@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<style>
+.profile-section{
+  background:#f8fafc;
+}
+
+/* Card */
+.profile-card{
+  background:#ffffff;
+  padding:35px;
+  border-radius:20px;
+  box-shadow:0 20px 60px rgba(0,0,0,.08);
+}
+
+/* Header */
+.profile-header{
+  display:flex;
+  align-items:center;
+  gap:16px;
+}
+
+.avatar{
+  width:64px;
+  height:64px;
+  border-radius:50%;
+  background:linear-gradient(135deg,#2563eb,#1d4ed8);
+  color:#fff;
+  font-size:28px;
+  font-weight:800;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+}
+
+.role-badge{
+  display:inline-block;
+  margin-top:4px;
+  background:#e0f2fe;
+  color:#0369a1;
+  padding:4px 12px;
+  border-radius:20px;
+  font-size:13px;
+  font-weight:600;
+}
+
+/* Info rows */
+.profile-info{
+  margin-top:20px;
+}
+
+.info-row{
+  display:flex;
+  justify-content:space-between;
+  padding:12px 0;
+  border-bottom:1px solid #e5e7eb;
+}
+
+.info-row span{
+  color:#64748b;
+  font-size:14px;
+}
+
+.info-row strong{
+  color:#0f172a;
+  font-weight:600;
+}
+
+/* Actions */
+.profile-actions{
+  display:flex;
+  gap:12px;
+  flex-wrap:wrap;
+}
+
+.profile-actions .btn{
+  border-radius:12px;
+  font-weight:600;
+}
+</style>
+
+<body>
+    <section class="profile-section py-5">
+  <div class="container">
+    <div class="row justify-content-center">
+      <div class="col-lg-6">
+
+        <div class="profile-card">
+
+          <!-- Header -->
+          <div class="profile-header">
+            <div class="avatar">
+              {{ profile.user.username|slice:":1"|upper }}
+            </div>
+            <div>
+              <h4 class="mb-0">{{ profile.user.username }}</h4>
+              <span class="role-badge">{{ profile.role|title }}</span>
+            </div>
+          </div>
+
+          <hr>
+
+          <!-- Info -->
+          <div class="profile-info">
+            <div class="info-row">
+              <span>Username</span>
+              <strong>{{ profile.user.username }}</strong>
+            </div>
+
+            <div class="info-row">
+              <span>Email</span>
+              <strong>{{ profile.user.email }}</strong>
+            </div>
+
+            <div class="info-row">
+              <span>Account Role</span>
+              <strong>{{ profile.role|title }}</strong>
+            </div>
+          </div>
+
+          <!-- Actions -->
+          <div class="profile-actions mt-4">
+            <a href="#" class="btn btn-outline-primary">
+              Edit Profile
+            </a>
+            <a href="#" class="btn btn-outline-secondary">
+              Change Password
+            </a>
+          </div>
+
+        </div>
+
+      </div>
+    </div>
+  </div>
+</section>
+
+</body>
+</html>
