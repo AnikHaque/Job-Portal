@@ -1,7 +1,8 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
 import json
-
+from datetime import timedelta
+from django.utils import timezone
 from accounts.models import Profile
 from jobs.models import Job, Application, Payment, Category
 from .models import Company
@@ -228,16 +229,56 @@ def employer_payments(request):
 
 
 @login_required
+@login_required
 def employer_analytics(request):
-    company = Company.objects.get(owner=request.user)
+    company = Company.objects.filter(owner=request.user).first()
+    if not company:
+        return redirect('create_company')
 
-    return render(request, 'dashboard/employer_dashboard.html', {
+    # Jobs & applications
+    jobs = Job.objects.filter(company=company)
+    applications = Application.objects.filter(job__company=company)
+
+    total_jobs = jobs.count()
+    total_applications = applications.count()
+    shortlisted = applications.filter(status='shortlisted').count()
+    rejected = applications.filter(status='rejected').count()
+    pending = applications.exclude(status__in=['shortlisted', 'rejected']).count()
+
+    # Bar chart: applications per job
+    job_stats = jobs.annotate(applicants=Count('applications'))
+    job_titles = [job.title for job in job_stats]
+    applications_per_job = [job.applicants for job in job_stats]
+
+    # Line chart: last 7 days (FIXED FIELD)
+    last_7_days = []
+    applications_trend = []
+
+    for i in range(6, -1, -1):
+        day = timezone.now().date() - timedelta(days=i)
+        last_7_days.append(day.strftime('%a'))
+        applications_trend.append(
+            applications.filter(applied_at__date=day).count()
+        )
+
+    context = {
         'dashboard_page': 'dashboard/employer/analytics.html',
-        'total_jobs': Job.objects.filter(company=company).count(),
-        'total_applications': Application.objects.filter(job__company=company).count(),
-        'shortlisted': Application.objects.filter(job__company=company, status='shortlisted').count(),
-        'rejected': Application.objects.filter(job__company=company, status='rejected').count(),
-    })
+
+        # KPIs
+        'total_jobs': total_jobs,
+        'total_applications': total_applications,
+        'shortlisted': shortlisted,
+        'rejected': rejected,
+        'pending': pending,
+
+        # Charts (JSON)
+        'job_titles': json.dumps(job_titles),
+        'applications_per_job': json.dumps(applications_per_job),
+        'last_7_days': json.dumps(last_7_days),
+        'applications_trend': json.dumps(applications_trend),
+    }
+
+    return render(request, 'dashboard/employer_dashboard.html', context)
 
 @login_required
 def employer_post_job(request):
