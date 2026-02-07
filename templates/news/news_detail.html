@@ -3,41 +3,189 @@
 
 {% block content %}
 
-<section class="py-5 bg-light">
-  <div class="container">
+<!-- ================= HERO HEADER WITH BACKGROUND IMAGE ================= -->
+<section class="py-5 text-white position-relative"
+         style="
+           background-image: url('{% if news.featured_image %}{{ news.featured_image.url }}{% else %}https://images.unsplash.com/photo-1499750310107-5fef28a66643{% endif %}');
+           background-size: cover;
+           background-position: center;
+         ">
 
-    <div class="text-center mb-5">
-      <h1 class="fw-bold">{{ news.title }}</h1>
+  <!-- Dark Overlay -->
+  <div class="position-absolute top-0 start-0 w-100 h-100"
+       style="background: rgba(0,0,0,0.6);">
+  </div>
 
-      <p class="text-muted mt-3">
-        {{ news.summary }}
-      </p>
-
-      <div class="small text-muted mt-2">
-        ✍️ {{ news.author.get_full_name|default:news.author.username }}
-        • {{ news.published_at|date:"F d, Y" }}
-        • {{ news.content|wordcount|divisibleby:200|add:1 }} min read
-      </div>
-    </div>
-
-    {% if news.featured_image %}
-    <div class="mb-5">
-      <img src="{{ news.featured_image.url }}"
-           class="img-fluid rounded shadow"
-           alt="{{ news.title }}">
-    </div>
-    {% endif %}
-
+  <div class="container position-relative">
     <div class="row justify-content-center">
-      <div class="col-lg-8">
+      <div class="col-lg-9 text-center">
 
-        <div class="fs-5 lh-lg">
-          {{ news.content|linebreaks }}
+        <span class="badge bg-primary mb-3 px-3 py-2">
+          Latest News
+        </span>
+
+        <h1 class="fw-bold display-6">
+          {{ news.title }}
+        </h1>
+
+        <p class="mt-3 fs-5 text-light opacity-75">
+          {{ news.summary }}
+        </p>
+
+        <div class="d-flex justify-content-center align-items-center gap-3 small mt-3 text-light opacity-75">
+          <span>
+            ✍️ {{ news.author.get_full_name|default:news.author.username }}
+          </span>
+          <span>•</span>
+          <span>{{ news.published_at|date:"F d, Y" }}</span>
+          <span>•</span>
+          <span>{{ news.content|wordcount|divisibleby:200|add:1 }} min read</span>
         </div>
 
       </div>
     </div>
+  </div>
 
+</section>
+
+
+<!-- ================= FEATURED IMAGE ================= -->
+{% if news.featured_image %}
+<section class="py-4">
+  <div class="container">
+    <div class="row justify-content-center">
+      <div class="col-lg-6">
+        <img src="{{ news.featured_image.url }}"
+             class="img-fluid rounded shadow-sm w-100"
+             alt="{{ news.title }}">
+      </div>
+    </div>
+  </div>
+</section>
+{% endif %}
+
+<!-- ================= MAIN CONTENT ================= -->
+<section class="py-5">
+  <div class="container">
+    <div class="row">
+
+      <!-- ===== ARTICLE BODY ===== -->
+      <div class="col-lg-8">
+
+        <article class="fs-6 lh-lg">
+
+          {{ news.content|linebreaks }}
+
+        </article>
+
+        <!-- ===== SHARE & CTA ===== -->
+        <div class="border-top pt-4 mt-5">
+
+          <h6 class="fw-bold mb-3">Share this article</h6>
+
+          <div class="d-flex gap-2 mb-4">
+            <a href="#" class="btn btn-outline-primary btn-sm">
+              <i class="bi bi-facebook"></i> Facebook
+            </a>
+            <a href="#" class="btn btn-outline-info btn-sm">
+              <i class="bi bi-twitter"></i> Twitter
+            </a>
+            <a href="#" class="btn btn-outline-success btn-sm">
+              <i class="bi bi-linkedin"></i> LinkedIn
+            </a>
+          </div>
+
+          <div class="alert alert-light border">
+            <strong>Looking for jobs?</strong><br>
+            Browse thousands of verified jobs and apply instantly.
+            <div class="mt-2">
+              <a href="{% url 'all_jobs' %}" class="btn btn-primary btn-sm">
+                Browse Jobs
+              </a>
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+
+      <!-- ===== RIGHT SIDEBAR ===== -->
+      <div class="col-lg-4">
+
+        <!-- Author Card -->
+        <div class="card mb-4">
+          <div class="card-body text-center">
+            <img src="https://cdn-icons-png.flaticon.com/512/847/847969.png"
+                 class="rounded-circle mb-3"
+                 width="80">
+
+            <h6 class="fw-bold mb-0">
+              {{ news.author.get_full_name|default:news.author.username }}
+            </h6>
+            <small class="text-muted">Content Writer</small>
+
+            <p class="small mt-3 text-muted">
+              Passionate about career growth, hiring trends, and remote work.
+            </p>
+          </div>
+        </div>
+
+        <!-- Popular Articles (Static for now) -->
+        <div class="card mb-4">
+          <div class="card-body">
+            <h6 class="fw-bold mb-3">Popular Articles</h6>
+
+            <ul class="list-unstyled small">
+              <li class="mb-2">
+                <a href="#" class="text-decoration-none">
+                  How to get hired faster in 2026
+                </a>
+              </li>
+              <li class="mb-2">
+                <a href="#" class="text-decoration-none">
+                  Remote jobs that pay the most
+                </a>
+              </li>
+              <li class="mb-2">
+                <a href="#" class="text-decoration-none">
+                  CV mistakes you must avoid
+                </a>
+              </li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- Tags -->
+        <div class="card mb-4">
+          <div class="card-body">
+            <h6 class="fw-bold mb-3">Topics</h6>
+
+            <span class="badge bg-light text-dark border">Jobs</span>
+            <span class="badge bg-light text-dark border">Career</span>
+            <span class="badge bg-light text-dark border">Hiring</span>
+            <span class="badge bg-light text-dark border">Remote</span>
+          </div>
+        </div>
+
+        <!-- Newsletter -->
+        <div class="card bg-primary text-white">
+          <div class="card-body">
+            <h6 class="fw-bold">Get weekly career tips</h6>
+            <p class="small mb-3">
+              No spam. Only useful job & career insights.
+            </p>
+            <form>
+              <input type="email" class="form-control mb-2" placeholder="Your email">
+              <button class="btn btn-light btn-sm w-100">
+                Subscribe
+              </button>
+            </form>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
   </div>
 </section>
 

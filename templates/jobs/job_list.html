@@ -1188,7 +1188,7 @@
     </div>
 
     <div class="company-btn">
-      <a href="#">
+      <a href="{% url 'company_list' %}">
         View All Featured Companies
       </a>
     </div>
@@ -1396,7 +1396,7 @@
 
     <div class="row g-4">
 
-      {% for job in jobs|slice:":6" %}
+      {% for job in jobs|slice:":8" %}
       <div class="col-lg-3 col-md-6">
         <div class="latest-card">
 
@@ -1445,12 +1445,18 @@
           </div>
 
         </div>
+        
       </div>
       {% endfor %}
 
     </div>
 
   </div>
+   <div class="featured-btn">
+      <a href="{% url 'all_jobs' %}">
+        View All Featured Jobs
+      </a>
+    </div>
 </section>
 
 

@@ -1,0 +1,137 @@
+{% extends "base.html" %}
+{% block content %}
+<h1 class="text-center mt-4">All Jobs</h1>
+<section class="py-5">
+    
+  <div class="container">
+    <div class="row">
+
+      <!-- ================= LEFT SIDEBAR FILTER ================= -->
+      <div class="col-lg-3">
+        <form method="get" action="{% url 'all_jobs' %}" class="card p-3 mb-4">
+
+          <h5 class="mb-3">Filter Jobs</h5>
+
+          <!-- Keyword -->
+          <div class="mb-3">
+            <label class="form-label">Keyword</label>
+            <input type="text"
+                   name="q"
+                   class="form-control"
+                   placeholder="Job title / company"
+                   value="{{ keyword|default_if_none:'' }}">
+          </div>
+
+          <!-- Location -->
+          <div class="mb-3">
+            <label class="form-label">Location</label>
+            <input type="text"
+                   name="location"
+                   class="form-control"
+                   placeholder="City"
+                   value="{{ location|default_if_none:'' }}">
+          </div>
+
+          <!-- Job Type -->
+          <div class="mb-3">
+            <label class="form-label">Job Type</label>
+            <select name="job_type" class="form-select">
+              <option value="">All</option>
+              {% for value, label in job_types %}
+                <option value="{{ value }}"
+                  {% if value == selected_job_type %}selected{% endif %}>
+                  {{ label }}
+                </option>
+              {% endfor %}
+            </select>
+          </div>
+
+          <!-- Company -->
+          <div class="mb-3">
+            <label class="form-label">Company</label>
+            <select name="company" class="form-select">
+              <option value="">All</option>
+              {% for comp in companies %}
+                <option value="{{ comp.id }}"
+                  {% if comp.id|stringformat:"s" == selected_company %}selected{% endif %}>
+                  {{ comp.name }}
+                </option>
+              {% endfor %}
+            </select>
+          </div>
+
+          <button type="submit" class="btn btn-primary w-100">
+            Apply Filters
+          </button>
+
+          {% if request.GET %}
+          <a href="{% url 'all_jobs' %}"
+             class="btn btn-outline-secondary w-100 mt-2">
+            Clear Filters
+          </a>
+          {% endif %}
+
+        </form>
+      </div>
+
+      <!-- ================= RIGHT SIDE JOB LIST ================= -->
+      <div class="col-lg-9">
+        <div class="row g-4">
+
+          {% for job in jobs %}
+          <div class="col-md-6 col-xl-4">
+            <div class="latest-card h-100">
+
+              {% if job.is_featured %}
+                <span class="badge bg-warning text-dark mb-2">Featured</span>
+              {% endif %}
+
+              <!-- Job Type Badge -->
+              {% if job.job_type == 'full_time' %}
+                <span class="job-type job-full">Full Time</span>
+              {% elif job.job_type == 'part_time' %}
+                <span class="job-type job-part">Part Time</span>
+              {% elif job.job_type == 'remote' %}
+                <span class="job-type job-remote">Remote</span>
+              {% endif %}
+
+              <h5 class="mt-2">{{ job.title }}</h5>
+
+              <div class="job-meta">
+                <i class="bi bi-building"></i>
+                {{ job.company.name|default:"N/A" }}
+              </div>
+
+              <div class="job-meta">
+                <i class="bi bi-geo-alt-fill"></i>
+                {{ job.location }}
+              </div>
+
+              <div class="job-meta">
+                <i class="bi bi-clock"></i>
+                {{ job.created_at|date:"M d, Y" }}
+              </div>
+
+              <a href="{% url 'job_detail' job.id %}"
+                 class="btn btn-outline-primary w-100 mt-3">
+                View Details
+              </a>
+
+            </div>
+          </div>
+          {% empty %}
+            <div class="col-12">
+              <p class="text-center text-muted mt-5">
+                No jobs found with selected filters.
+              </p>
+            </div>
+          {% endfor %}
+
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+{% endblock %}

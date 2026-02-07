@@ -1,0 +1,70 @@
+{% extends "base.html" %}
+{% block content %}
+
+<section class="py-5">
+  <div class="container">
+
+    <!-- Company Header -->
+    <div class="row mb-4">
+      <div class="col-md-2 text-center">
+        {% if company.logo %}
+          <img src="{{ company.logo.url }}"
+               class="img-fluid"
+               style="max-height:80px">
+        {% endif %}
+      </div>
+
+      <div class="col-md-10">
+        <h2 class="fw-bold">{{ company.name }}</h2>
+        <p class="text-muted mb-1">{{ company.location }}</p>
+
+        {% if company.website %}
+          <a href="{{ company.website }}" target="_blank">
+            {{ company.website }}
+          </a>
+        {% endif %}
+      </div>
+    </div>
+
+    <!-- Company Description -->
+    <div class="card p-4 mb-5">
+      <h5>About Company</h5>
+      <p>{{ company.description }}</p>
+    </div>
+
+    <!-- Company Jobs -->
+    <h4 class="mb-3">Open Jobs</h4>
+
+    <div class="row g-4">
+      {% for job in jobs %}
+      <div class="col-md-6 col-lg-4">
+        <div class="card p-3 h-100">
+
+          <h5>{{ job.title }}</h5>
+
+          <p class="text-muted mb-1">
+            <i class="bi bi-geo-alt"></i>
+            {{ job.location }}
+          </p>
+
+          <p class="text-muted mb-2">
+            <i class="bi bi-briefcase"></i>
+            {{ job.get_job_type_display }}
+          </p>
+
+          <a href="{% url 'job_detail' job.id %}"
+             class="btn btn-outline-primary w-100">
+            View Job
+          </a>
+
+        </div>
+      </div>
+      {% empty %}
+        <p class="text-muted">No open jobs at this company.</p>
+      {% endfor %}
+    </div>
+
+  </div>
+</section>
+
+{% endblock %}

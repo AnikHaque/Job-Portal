@@ -1,12 +1,11 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
-from django.db.models import Count
 import json
 
 from accounts.models import Profile
 from jobs.models import Job, Application, Payment, Category
 from .models import Company
-
+from django.db.models import Q, Count
 
 # -----------------------------
 # Create Company
@@ -38,6 +37,31 @@ def create_company(request):
         'dashboard_page': 'companies/create_company.html',
     })
 
+def company_list(request):
+    companies = Company.objects.annotate(
+        total_jobs=Count('job')
+    ).order_by('-id')
+
+    # Filters
+    keyword = request.GET.get('q')
+    location = request.GET.get('location')
+
+    if keyword:
+        companies = companies.filter(
+            Q(name__icontains=keyword) |
+            Q(description__icontains=keyword)
+        )
+
+    if location:
+        companies = companies.filter(location__icontains=location)
+
+    context = {
+        'companies': companies,
+        'keyword': keyword,
+        'location': location,
+    }
+
+    return render(request, 'companies/company_list.html', context)
 
 # -----------------------------
 # Company Dashboard
@@ -56,6 +80,16 @@ def company_detail(request):
         'company': company,
         'jobs': jobs,
     })
+
+def company_public_detail(request, id):
+    company = get_object_or_404(Company, id=id)
+    jobs = Job.objects.filter(company=company).order_by('-created_at')
+
+    return render(request, 'companies/company_public_detail.html', {
+        'company': company,
+        'jobs': jobs,
+    })
+
 
 def company_jobs(request, company_id):
     company = Company.objects.get(id=company_id)

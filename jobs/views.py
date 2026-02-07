@@ -168,11 +168,44 @@ def job_list(request):
         'location': location,
         'job_type': job_type,
 
-        
-
     }
 
     return render(request, 'jobs/job_list.html', context)
+
+def all_jobs(request):
+    jobs = Job.objects.all()
+
+    q = request.GET.get('q')
+    location = request.GET.get('location')
+    job_type = request.GET.get('job_type')
+    company = request.GET.get('company')
+
+    if q:
+        jobs = jobs.filter(
+            Q(title__icontains=q) |
+            Q(company__name__icontains=q)
+        )
+
+    if location:
+        jobs = jobs.filter(location__icontains=location)
+
+    if job_type:
+        jobs = jobs.filter(job_type=job_type)
+
+    if company:
+        jobs = jobs.filter(company_id=company)
+
+    context = {
+        'jobs': jobs,
+        'job_types': Job.JOB_TYPE,
+        'companies': Company.objects.all(),
+        'selected_job_type': job_type,
+        'selected_company': company,
+        'keyword': q,
+        'location': location,
+    }
+
+    return render(request, 'jobs/alljobs.html', context)
 
 
 
