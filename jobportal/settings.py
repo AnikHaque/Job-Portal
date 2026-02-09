@@ -36,6 +36,7 @@ else:
 # APPLICATIONS
 # =========================
 INSTALLED_APPS = [
+    'jazzmin',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -53,7 +54,30 @@ INSTALLED_APPS = [
     'companies',
     'news',
     'success_stories',
+
 ]
+
+JAZZMIN_SETTINGS = {
+    # Branding
+    "site_title": "Job Portal Admin",
+    "site_header": "Job Poratl",
+    "site_brand": "Job Portal",
+
+    # Remove Django text
+    "site_logo": None,
+    "site_logo_classes": None,
+
+    # UI
+    "welcome_sign": "Welcome to Job Portal Dashboard",
+    "copyright": "© 2026 Job Portal",
+
+    # Top menu
+    "topmenu_links": [
+        {"name": "Home", "url": "/", "permissions": ["auth.view_user"]},
+    ],
+}
+
+
 
 LOGIN_REDIRECT_URL = '/'
 LOGOUT_REDIRECT_URL = '/login/'
@@ -206,3 +230,4 @@ if ENVIRONMENT == "production":
     CSRF_TRUSTED_ORIGINS = [
         'https://job-portal-cedv.onrender.com',
     ]
+
